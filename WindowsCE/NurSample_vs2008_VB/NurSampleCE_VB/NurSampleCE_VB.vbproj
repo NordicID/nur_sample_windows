@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{97F0FA41-D76A-404E-9EDC-EB66F66F70A0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>NurSampleCE_VB.Form1</StartupObject>
+    <RootNamespace>NurSampleCE_VB</RootNamespace>
+    <AssemblyName>NurSampleCE VB.NET</AssemblyName>
+    <ProjectTypeGuids>{68B1623D-7FB9-47D8-8664-7ECEA3297D4F};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <PlatformFamilyName>WindowsCE</PlatformFamilyName>
+    <PlatformID>db84e940-a219-4e6f-bb80-42e0e90b886d</PlatformID>
+    <OSVersion>6.00</OSVersion>
+    <MyType>WindowsForms</MyType>
+    <DeployDirSuffix>NurSampleCE_VB</DeployDirSuffix>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <NativePlatformName>Morphic SDK</NativePlatformName>
+    <FormFactorID>
+    </FormFactorID>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>$(PlatformFamilyName)=TRUE</DefineConstants>
+    <DocumentationFile>NurSampleCE VB.NET.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <FileAlignment>512</FileAlignment>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>$(PlatformFamilyName)=TRUE</DefineConstants>
+    <DocumentationFile>NurSampleCE VB.NET.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <FileAlignment>512</FileAlignment>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DOTNET_MHL_V3, Version=3.0.1.23886, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\DOTNET_MHL_V3.dll</HintPath>
+    </Reference>
+    <Reference Include="NurApiDotNetWCE, Version=1.8.4.5, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\import\dotnet\dotnet_cf_vs2008\NurApiDotNetWCE.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AntennaTuner.designer.vb">
+      <DependentUpon>AntennaTuner.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AntennaTuner.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Beeper.vb" />
+    <Compile Include="BeeperInventory.vb" />
+    <Compile Include="BeeperLocator.vb" />
+    <Compile Include="Form1.designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HHFullscreen.vb" />
+    <Compile Include="HHScanButton.vb" />
+    <Compile Include="HHUtils.vb" />
+    <Compile Include="Info.designer.vb">
+      <DependentUpon>Info.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Info.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Inventory.designer.vb">
+      <DependentUpon>Inventory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Locator.designer.vb">
+      <DependentUpon>Locator.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Locator.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Log.Designer.vb">
+      <DependentUpon>Log.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Log.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LogToFile.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="NurCapabilities.vb" />
+    <Compile Include="NurFwInfoParser.vb" />
+    <Compile Include="NurRead.vb" />
+    <Compile Include="NurSerializer.vb" />
+    <Compile Include="NurTagDataListView.designer.vb">
+      <DependentUpon>NurTagDataListView.vb</DependentUpon>
+    </Compile>
+    <Compile Include="NurTagDataListView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NurTagListView.designer.vb">
+      <DependentUpon>NurTagListView.vb</DependentUpon>
+    </Compile>
+    <Compile Include="NurTagListView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NurTuner.vb" />
+    <Compile Include="NurUtils.vb" />
+    <Compile Include="NXP.designer.vb">
+      <DependentUpon>NXP.vb</DependentUpon>
+    </Compile>
+    <Compile Include="NXP.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NXP_EasAlarm.Designer.vb">
+      <DependentUpon>NXP_EasAlarm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="NXP_EasAlarm.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NXP_ProductStatusFlag.Designer.vb">
+      <DependentUpon>NXP_ProductStatusFlag.vb</DependentUpon>
+    </Compile>
+    <Compile Include="NXP_ProductStatusFlag.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NXP_ReadProtect.Designer.vb">
+      <DependentUpon>NXP_ReadProtect.vb</DependentUpon>
+    </Compile>
+    <Compile Include="NXP_ReadProtect.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Program.vb" />
+    <Compile Include="Settings.Designer.vb">
+      <DependentUpon>Settings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utils.vb" />
+    <Compile Include="Writer.Designer.vb">
+      <DependentUpon>Writer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Writer.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AntennaTuner.resx">
+      <DependentUpon>AntennaTuner.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Info.resx">
+      <DependentUpon>Info.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory.resx">
+      <DependentUpon>Inventory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Locator.resx">
+      <DependentUpon>Locator.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Log.resx">
+      <DependentUpon>Log.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NurTagDataListView.resx">
+      <DependentUpon>NurTagDataListView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NurTagListView.resx">
+      <DependentUpon>NurTagListView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NXP.resx">
+      <DependentUpon>NXP.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NXP_EasAlarm.resx">
+      <DependentUpon>NXP_EasAlarm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NXP_ProductStatusFlag.resx">
+      <DependentUpon>NXP_ProductStatusFlag.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NXP_ReadProtect.resx">
+      <DependentUpon>NXP_ReadProtect.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings.resx">
+      <DependentUpon>Settings.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Writer.resx">
+      <DependentUpon>Writer.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.VisualBasic.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{F184B08F-C81C-45F6-A57F-5ABD9991F28F}">
+        <HostingProcess disable="1" />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

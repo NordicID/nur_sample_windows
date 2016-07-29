@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4721E81D-B7DE-4139-95CC-022C4A90AA4E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EM4325WCE</RootNamespace>
+    <AssemblyName>EM4325WCE</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\EM4325WCE.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NurApiDotNetWCE, Version=1.8.4.5, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\import\dotnet\dotnet_cf_vs2005\NurApiDotNetWCE.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\EM4325\BAP.cs">
+      <Link>BAP.cs</Link>
+    </Compile>
+    <Compile Include="..\EM4325\ConfigData.cs">
+      <Link>ConfigData.cs</Link>
+    </Compile>
+    <Compile Include="..\EM4325\CustomSensor.cs">
+      <Link>CustomSensor.cs</Link>
+    </Compile>
+    <Compile Include="..\EM4325\EM4325Constants.cs">
+      <Link>EM4325Constants.cs</Link>
+    </Compile>
+    <Compile Include="..\EM4325\EM4325Tag.cs">
+      <Link>EM4325Tag.cs</Link>
+    </Compile>
+    <Compile Include="..\EM4325\GetSensorData.cs">
+      <Link>GetSensorData.cs</Link>
+    </Compile>
+    <Compile Include="..\EM4325\GetUID.cs">
+      <Link>GetUID.cs</Link>
+    </Compile>
+    <Compile Include="..\EM4325\ResetAlarms.cs">
+      <Link>ResetAlarms.cs</Link>
+    </Compile>
+    <Compile Include="..\EM4325\SPI.cs">
+      <Link>SPI.cs</Link>
+    </Compile>
+    <Compile Include="..\EM4325\UTC.cs">
+      <Link>UTC.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

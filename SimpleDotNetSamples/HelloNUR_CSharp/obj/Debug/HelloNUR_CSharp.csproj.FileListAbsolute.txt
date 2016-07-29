@@ -1,0 +1,11 @@
+F:\nur_sample_windows\SimpleDotNetSamples\HelloNUR_CSharp\bin\Debug\NURAPI.dll
+F:\nur_sample_windows\SimpleDotNetSamples\HelloNUR_CSharp\bin\Debug\HelloNUR_CSharp.exe
+F:\nur_sample_windows\SimpleDotNetSamples\HelloNUR_CSharp\bin\Debug\HelloNUR_CSharp.pdb
+F:\nur_sample_windows\SimpleDotNetSamples\HelloNUR_CSharp\bin\Debug\NurApiDotNet.dll
+F:\nur_sample_windows\SimpleDotNetSamples\HelloNUR_CSharp\bin\Debug\NurApiDotNet.xml
+F:\nur_sample_windows\SimpleDotNetSamples\HelloNUR_CSharp\obj\Debug\ResolveAssemblyReference.cache
+F:\nur_sample_windows\SimpleDotNetSamples\HelloNUR_CSharp\obj\Debug\HelloNUR_CSharp.Form1.resources
+F:\nur_sample_windows\SimpleDotNetSamples\HelloNUR_CSharp\obj\Debug\HelloNUR_CSharp.Properties.Resources.resources
+F:\nur_sample_windows\SimpleDotNetSamples\HelloNUR_CSharp\obj\Debug\HelloNUR_CSharp.csproj.GenerateResource.Cache
+F:\nur_sample_windows\SimpleDotNetSamples\HelloNUR_CSharp\obj\Debug\HelloNUR_CSharp.exe
+F:\nur_sample_windows\SimpleDotNetSamples\HelloNUR_CSharp\obj\Debug\HelloNUR_CSharp.pdb

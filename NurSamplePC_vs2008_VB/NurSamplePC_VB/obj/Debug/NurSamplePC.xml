@@ -1,0 +1,877 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+NurSamplePC
+</name>
+</assembly>
+<members>
+<member name="F:NurSamplePC.Form1.components">
+	<summary>
+ Required designer variable.
+ </summary>
+</member><member name="M:NurSamplePC.Form1.Dispose(System.Boolean)">
+	<summary>
+ Clean up any resources being used.
+ </summary>
+	<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+</member><member name="M:NurSamplePC.Form1.InitializeComponent">
+	<summary>
+ Required method for Designer support - do not modify
+ the contents of this method with the code editor.
+ </summary>
+</member><member name="M:NurSamplePC.NurUtils.SearchNearestTag(NurApiDotNet.NurApi,System.Boolean,NurApiDotNet.NurApi.Tag@,System.Int32@)">
+	<summary>
+ Searches the nearest tag.
+ </summary>
+	<param name="hNur">The NurApi header.</param>
+	<param name="autoTxLevel">if set to <c>true</c> [use auto tx level].</param>
+	<param name="tag">reference for the nearest tag</param>
+	<param name="usedTxLevel">reference for the used TxLevel.</param>
+	<returns>
+ The number of found tags.
+ </returns>
+</member><member name="M:NurSamplePC.NurUtils.ReadBankByEpc(NurApiDotNet.NurApi,System.UInt32,System.Boolean,System.Byte[],System.Byte,System.UInt32,System.Int32,System.Int32)">
+	<summary>
+ Reads the bank by epc.
+ </summary>
+	<param name="hNur">The NurApi header.</param>
+	<param name="passwd">The access passwd.</param>
+	<param name="secured">if set to <c>true</c> [use password].</param>
+	<param name="epc">The epc.</param>
+	<param name="rdBank">The rdBank.</param>
+	<param name="rdAddress">The rdAddress.</param>
+	<param name="rdByteCount">The rdByte count.</param>
+	<param name="bankSizeSuggestion">The bank size suggestion.</param>
+	<returns></returns>
+</member><member name="F:NurSamplePC.Sensors.hNur">
+	<summary>
+ The NurApi handle
+ </summary>
+</member><member name="F:NurSamplePC.Sensors.disableEvents">
+	<summary>
+ The disable controls events
+ </summary>
+</member><member name="M:NurSamplePC.Sensors.#ctor">
+	<summary>
+ Initializes a new instance of the <see cref="T:NurSamplePC.Inventory"/> class.
+ </summary>
+</member><member name="M:NurSamplePC.Sensors.SetNurApi(NurApiDotNet.NurApi)">
+	<summary>
+ Sets the NurApi.
+ </summary>
+	<param name="hNur">The handle of NurApi.</param>
+</member><member name="M:NurSamplePC.Sensors.hNur_DisconnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the DisconnectedEvent event of the NUR module.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Sensors.hNur_ConnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the ConnectedEvent event of the NUR module.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.NurSerializer.Serialize(NurApiDotNet.NurApi)">
+	<summary>
+ Serializes this instance.
+ </summary>
+</member><member name="M:NurSamplePC.NurSerializer.MeasureReflectedPowers(NurApiDotNet.NurApi)">
+	<summary>
+ Measures the reflected powers.
+ </summary>
+	<param name="hNur">The NurApi.</param>
+	<returns></returns>
+</member><member name="M:NurSamplePC.NurSerializer.SaveToFile(System.String)">
+	<summary>
+ Saves to file.
+ </summary>
+	<param name="path">The path.</param>
+</member><member name="M:NurSamplePC.NurSerializer.SaveToStream(System.IO.Stream)">
+	<summary>
+ Saves to stream.
+ </summary>
+	<param name="stream">The stream.</param>
+</member><member name="F:NurSamplePC.Locator.hNur">
+	<summary>
+ The NurApi handle
+ </summary>
+</member><member name="F:NurSamplePC.Locator.NOSIGNAL">
+	<summary>
+ Range of the signal
+ </summary>
+</member><member name="F:NurSamplePC.Locator.MAXTXPOWER">
+	<summary>
+ Locating parameters
+ </summary>
+</member><member name="F:NurSamplePC.Locator.locatingSignal">
+	<summary>
+ Containen for signals
+ </summary>
+</member><member name="F:NurSamplePC.Locator.IsRunning">
+	<summary>
+ Locator variables
+ </summary>
+</member><member name="M:NurSamplePC.Locator.#ctor">
+	<summary>
+ Initializes a new instance of the <see cref="T:NurSamplePC.Locator"/> class.
+ </summary>
+</member><member name="M:NurSamplePC.Locator.Dispose(System.Boolean)">
+	<summary> 
+ Clean up any resources being used.
+ </summary>
+	<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+</member><member name="M:NurSamplePC.Locator.SetNurApi(NurApiDotNet.NurApi)">
+	<summary>
+ Sets the NurApi.
+ </summary>
+	<param name="hNur">The handle of NurApi.</param>
+</member><member name="M:NurSamplePC.Locator.hNur_DisconnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the DisconnectedEvent event of the NUR module.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Locator.hNur_ConnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the ConnectedEvent event of the NUR module.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Locator.refreshBtn_Click(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Click event of the refreshBtn control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Locator.tagListView_SelectedTagChanged(System.Object,System.EventArgs)">
+	<summary>
+ Handles the SelectedTagChanged event of the tagListView control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Locator.bankCombo_SelectedIndexChanged(System.Object,System.EventArgs)">
+	<summary>
+ Handles the SelectedIndexChanged event of the bankCombo control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Locator.tagToLocate_TextChanged(System.Object,System.EventArgs)">
+	<summary>
+ Handles the TextChanged event of the tagToLocate control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Locator.locateBtn_Click(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Click event of the locateBtn control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Locator.updateTimer_Tick(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Tick event of the updateTimer control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Locator.StartLocating">
+	<summary>
+ Starts the locating.
+ </summary>
+	<returns>true if succeed</returns>
+</member><member name="M:NurSamplePC.Locator.StopLocating">
+	<summary>
+ Stops the tag locator.
+ </summary>
+	<returns>true if succeed</returns>
+</member><member name="M:NurSamplePC.Locator.LocateThread">
+	<summary>
+ Tag Locator.
+ </summary>
+</member><member name="M:NurSamplePC.Settings.hNur_DisconnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the DisconnectedEvent event of the NUR module.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Settings.hNur_ConnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the ConnectedEvent event of the NUR module.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Utils.ConvertToBigEndiaBytes(System.UInt64)">
+	<summary>
+ Converts UInt64 to big endia bytes.
+ </summary>
+	<param name="value">The value.</param>
+	<returns></returns>
+</member><member name="M:NurSamplePC.Utils.ConvertToBigEndiaBytes(System.UInt32)">
+	<summary>
+ Converts UInt32 to big endia bytes.
+ </summary>
+	<param name="value">The value.</param>
+	<returns></returns>
+</member><member name="M:NurSamplePC.Utils.ConvertToBigEndiaBytes(System.UInt16)">
+	<summary>
+ Converts UInt16 to big endia bytes.
+ </summary>
+	<param name="value">The value.</param>
+	<returns></returns>
+</member><member name="M:NurSamplePC.Utils.ConvertBigEndiaToSystemEndia(System.Byte[])">
+	<summary>
+ Converts the big endia bytes to system endia.
+ </summary>
+	<param name="value">The value.</param>
+	<returns></returns>
+</member><member name="M:NurSamplePC.Utils.ConvertBigEndiaToSystemEndia(System.UInt64)">
+	<summary>
+ Converts the big endia to system endia.
+ </summary>
+	<param name="value">The value.</param>
+	<returns></returns>
+</member><member name="M:NurSamplePC.Utils.ConvertBigEndiaToSystemEndia(System.UInt32)">
+	<summary>
+ Converts the big endia to system endia.
+ </summary>
+	<param name="value">The value.</param>
+	<returns></returns>
+</member><member name="M:NurSamplePC.Utils.ConvertBigEndiaToSystemEndia(System.UInt16)">
+	<summary>
+ Converts the big endia to system endia.
+ </summary>
+	<param name="value">The value.</param>
+	<returns></returns>
+</member><member name="M:NurSamplePC.Utils.ReverseBytes(System.UInt16)">
+	<summary>
+ Reverses byte order (16-bit)
+ </summary>
+	<param name="value">The value.</param>
+	<returns></returns>
+</member><member name="M:NurSamplePC.Utils.ReverseBytes(System.UInt32)">
+	<summary>
+ Reverses byte order (32-bit)
+ </summary>
+	<param name="value">The value.</param>
+	<returns></returns>
+</member><member name="M:NurSamplePC.Utils.ReverseBytes(System.UInt64)">
+	<summary>
+ Reverses byte order (64-bit)
+ </summary>
+	<param name="value">The value.</param>
+	<returns></returns>
+</member><member name="F:NurSamplePC.Log.components">
+	<summary> 
+ Required designer variable.
+ </summary>
+</member><member name="M:NurSamplePC.Log.InitializeComponent">
+	<summary> 
+ Required method for Designer support - do not modify 
+ the contents of this method with the code editor.
+ </summary>
+</member><member name="M:NurSamplePC.Writer.#ctor">
+	<summary>
+ Initializes a new instance of the <see cref="T:NurSamplePC.Writer"/> class.
+ </summary>
+</member><member name="M:NurSamplePC.Writer.SetNurApi(NurApiDotNet.NurApi)">
+	<summary>
+ Sets the NurApi.
+ </summary>
+	<param name="hNur">The handle of NurApi.</param>
+</member><member name="M:NurSamplePC.Writer.hNur_DisconnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the DisconnectedEvent event of the NUR module.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Writer.hNur_ConnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the ConnectedEvent event of the NUR module.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Writer.refreshBtn_Click(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Click event of the refreshBtn control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Writer.writeTagListView_SelectedTagChanged(System.Object,System.EventArgs)">
+	<summary>
+ Handles the SelectedTagChanged event of the writeTagListView control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Writer.pickUpButton_Click(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Click event of the pickUpButton control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Writer.SetTargetTag(System.Byte,System.UInt32,System.Byte[])">
+	<summary>
+ Sets the target tag.
+ </summary>
+	<param name="bank">The bank.</param>
+	<param name="start">The start.</param>
+	<param name="mask">The mask.</param>
+</member><member name="M:NurSamplePC.Writer.UpdateTargetTagControls">
+	<summary>
+ Updates the target tag controls.
+ </summary>
+</member><member name="M:NurSamplePC.Writer.tabControl1_SelectedIndexChanged(System.Object,System.EventArgs)">
+	<summary>
+ Handles the SelectedIndexChanged event of the tabControl1 control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Writer.writeNewEpcBtn_Click(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Click event of the writeNewEpcBtn control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Writer.readMemButton_Click(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Click event of the readMemButton control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Writer.writeMemButton_Click(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Click event of the writeMemButton control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+	<exception cref="T:System.Exception">
+ mission impossible
+ or
+ Invalid parameter
+ </exception>
+</member><member name="M:NurSamplePC.Writer.setLockStateButton_Click(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Click event of the setLockStateButton control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Writer.readPasswordButton_Click(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Click event of the readPasswordButton control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Writer.ReverseBytes(System.UInt32)">
+	<summary>
+ reverse byte order (32-bit)
+ </summary>
+	<param name="value">The value.</param>
+	<returns></returns>
+</member><member name="M:NurSamplePC.Writer.writePasswordButton_Click(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Click event of the writePasswordButton control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Writer.killButton_Click(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Click event of the killButton control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="F:NurSamplePC.Settings.components">
+	<summary> 
+ Required designer variable.
+ </summary>
+</member><member name="M:NurSamplePC.Settings.Dispose(System.Boolean)">
+	<summary> 
+ Clean up any resources being used.
+ </summary>
+	<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+</member><member name="M:NurSamplePC.Settings.InitializeComponent">
+	<summary> 
+ Required method for Designer support - do not modify 
+ the contents of this method with the code editor.
+ </summary>
+</member><member name="F:NurSamplePC.Form1.hNur">
+	<summary>
+ The NurApi handle
+ </summary>
+</member><member name="M:NurSamplePC.Form1.#ctor">
+	<summary>
+ Initializes a new instance of the <see cref="T:NurSamplePC.Form1"/> class.
+ </summary>
+</member><member name="M:NurSamplePC.Form1.Form1_Load(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Load event of the Form1 control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Form1.Form1_Closing(System.Object,System.ComponentModel.CancelEventArgs)">
+	<summary>
+ Handles the Closing event of the Form1 control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.ComponentModel.CancelEventArgs"/> instance containing the event data.</param>
+</member><member name="F:NurSamplePC.Inventory.hNur">
+	<summary>
+ The NurApi handle
+ </summary>
+</member><member name="F:NurSamplePC.Inventory.continueInventory">
+	<summary>
+ The continue inventory
+ </summary>
+</member><member name="F:NurSamplePC.Inventory.inventoryReadSupported">
+	<summary>
+ The inventory read supported
+ </summary>
+</member><member name="F:NurSamplePC.Inventory.unofficialTidInventorySupported">
+	<summary>
+ The unofficial TID inventory supported
+ </summary>
+</member><member name="M:NurSamplePC.Inventory.#ctor">
+	<summary>
+ Initializes a new instance of the <see cref="T:NurSamplePC.Inventory"/> class.
+ </summary>
+</member><member name="M:NurSamplePC.Inventory.Dispose(System.Boolean)">
+	<summary> 
+ Clean up any resources being used.
+ </summary>
+	<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+</member><member name="M:NurSamplePC.Inventory.SetNurApi(NurApiDotNet.NurApi)">
+	<summary>
+ Sets the NurApi.
+ </summary>
+	<param name="hNur">The handle of NurApi.</param>
+</member><member name="M:NurSamplePC.Inventory.hNur_DisconnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the DisconnectedEvent event of the NUR module.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Inventory.hNur_ConnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the ConnectedEvent event of the NUR module.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Inventory.hNur_InventoryStreamEvent(System.Object,NurApiDotNet.NurApi.InventoryStreamEventArgs)">
+	<summary>
+ Handles the InventoryStreamEvent event of the NUR module.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.InventoryStreamEventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Inventory.startStopInventoryBtn_Click(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Click event of the startStopInventoryBtn control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Inventory.StopInventory">
+	<summary>
+ Stops the inventory.
+ </summary>
+</member><member name="M:NurSamplePC.Inventory.InitializInventoryRead">
+	<summary>
+ Initializs the inventory read.
+ </summary>
+</member><member name="M:NurSamplePC.Inventory.InitializeUnofficialTidInventory">
+	<summary>
+ Initializes the unofficial TID inventory.
+ </summary>
+</member><member name="M:NurSamplePC.Inventory.invTypeComboBox_SelectedIndexChanged(System.Object,System.EventArgs)">
+	<summary>
+ Handles the SelectedIndexChanged event of the invTypeComboBox control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Inventory.UpdtaeInvnetoryControls">
+	<summary>
+ Updtaes the invnetory controls.
+ </summary>
+</member><member name="F:NurSamplePC.Sensors.components">
+	<summary> 
+ Required designer variable.
+ </summary>
+</member><member name="M:NurSamplePC.Sensors.Dispose(System.Boolean)">
+	<summary> 
+ Clean up any resources being used.
+ </summary>
+	<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+</member><member name="M:NurSamplePC.Sensors.InitializeComponent">
+	<summary> 
+ Required method for Designer support - do not modify 
+ the contents of this method with the code editor.
+ </summary>
+</member><member name="M:NurSamplePC.Program.Main">
+	<summary>
+ The main entry point for the application.
+ </summary>
+</member><member name="F:NurSamplePC.Connection.hNur">
+	<summary>
+ The NurApi handle
+ </summary>
+</member><member name="M:NurSamplePC.Connection.#ctor">
+	<summary>
+ Initializes a new instance of the <see cref="T:NurSamplePC.Connection"/> class.
+ </summary>
+</member><member name="M:NurSamplePC.Connection.SetNurApi(NurApiDotNet.NurApi)">
+	<summary>
+ Sets the NurApi.
+ </summary>
+	<param name="hNur">The handle of NurApi.</param>
+</member><member name="M:NurSamplePC.Connection.hNur_DisconnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the DisconnectedEvent event of the NUR module.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Connection.hNur_ConnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the ConnectedEvent event of the NUR module.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+</member><member name="F:NurSamplePC.Log.hNur">
+	<summary>
+ The NurApi handle
+ </summary>
+</member><member name="M:NurSamplePC.Log.#ctor">
+	<summary>
+ Initializes a new instance of the <see cref="T:NurSamplePC.Inventory"/> class.
+ </summary>
+</member><member name="M:NurSamplePC.Log.Dispose(System.Boolean)">
+	<summary> 
+ Clean up any resources being used.
+ </summary>
+	<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+</member><member name="M:NurSamplePC.Log.SetNurApi(NurApiDotNet.NurApi)">
+	<summary>
+ Sets the NurApi.
+ </summary>
+	<param name="hNur">The handle of NurApi.</param>
+</member><member name="F:NurSamplePC.Writer.components">
+	<summary> 
+ Required designer variable.
+ </summary>
+</member><member name="M:NurSamplePC.Writer.Dispose(System.Boolean)">
+	<summary> 
+ Clean up any resources being used.
+ </summary>
+	<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+</member><member name="M:NurSamplePC.Writer.InitializeComponent">
+	<summary> 
+ Required method for Designer support - do not modify 
+ the contents of this method with the code editor.
+ </summary>
+</member><member name="P:NurSamplePC.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:NurSamplePC.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:NurSamplePC.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="M:NurSamplePC.NurTagDataListView.#ctor">
+	<summary>
+ Initializes a new instance of the <see cref="T:NurSamplePC.NurTagDataListView"/> class.
+ </summary>
+</member><member name="E:NurSamplePC.NurTagDataListView.SelectedTagChanged">
+	<summary>
+ Occurs when [selected tag changed].
+ </summary>
+</member><member name="P:NurSamplePC.NurTagDataListView.SelectedTag">
+	<summary>
+ Gets the selected tag.
+ </summary>
+	<value>
+ The selected tag.
+ </value>
+</member><member name="M:NurSamplePC.NurTagDataListView.ClearTagList">
+	<summary>
+ Clears the tag list.
+ </summary>
+</member><member name="M:NurSamplePC.NurTagDataListView.UpdateTagList(NurApiDotNet.NurApi.TagStorage)">
+	<summary>
+ Updates the tag list.
+ </summary>
+	<param name="inventoriedTags">The inventoried tags.</param>
+	<returns>The number of new tags</returns>
+</member><member name="M:NurSamplePC.NurTagListView.#ctor">
+	<summary>
+ Initializes a new instance of the <see cref="T:NurSamplePC.NurTagListView"/> class.
+ </summary>
+</member><member name="E:NurSamplePC.NurTagListView.SelectedTagChanged">
+	<summary>
+ Occurs when selected Tag changed.
+ </summary>
+</member><member name="P:NurSamplePC.NurTagListView.SelectedTag">
+	<summary>
+ Gets the selected tag.
+ </summary>
+	<value>
+ The selected tag.
+ </value>
+</member><member name="M:NurSamplePC.NurTagListView.ClearTagList">
+	<summary>
+ Clears the tag list.
+ </summary>
+</member><member name="M:NurSamplePC.NurTagListView.UpdateTagList(NurApiDotNet.NurApi.TagStorage)">
+	<summary>
+ Updates the tag list.
+ </summary>
+	<param name="inventoriedTags">The inventoried tags.</param>
+	<returns>The number of new tags</returns>
+</member><member name="M:NurSamplePC.NXP.SetNurApi(NurApiDotNet.NurApi)">
+	<summary>
+ Sets the hadle of nur API.
+ </summary>
+	<param name="hNur">Handle of NurApi.</param>
+</member><member name="M:NurSamplePC.NXP.hNur_DisconnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the DisconnectedEvent event of the NUR module.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.NXP.hNur_ConnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the ConnectedEvent event of the NUR module.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.NXP.refreshBtn_Click(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Click event of the refreshBtn control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.NXP.nxpTagListView_SelectedTagChanged(System.Object,System.EventArgs)">
+	<summary>
+ Handles the SelectedTagChanged event of the nxpTagListView control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.NXP.UpdateButtons">
+	<summary>
+ Updates the buttons.
+ </summary>
+</member><member name="M:NurSamplePC.NXP.setBtn_Click(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Click event of the setBtn control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.NXP.resetBtn_Click(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Click event of the resetBtn control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="F:NurSamplePC.Inventory.components">
+	<summary> 
+ Required designer variable.
+ </summary>
+</member><member name="M:NurSamplePC.Inventory.InitializeComponent">
+	<summary> 
+ Required method for Designer support - do not modify 
+ the contents of this method with the code editor.
+ </summary>
+</member><member name="M:NurSamplePC.Info.SetNurApi(NurApiDotNet.NurApi)">
+	<summary>
+ Sets the NurApi.
+ </summary>
+	<param name="hNur">The handle of NurApi.</param>
+</member><member name="M:NurSamplePC.Info.hNur_DisconnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the DisconnectedEvent event of the NUR module.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Info.hNur_ConnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the ConnectedEvent event of the NUR module.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+</member><member name="M:NurSamplePC.Info.UpdateInfo(NurApiDotNet.NurApi)">
+	<summary>
+ Updates the info.
+ </summary>
+	<param name="hNur">The NUR module handler.</param>
+</member><member name="M:NurSamplePC.Info.DumpObject(System.Windows.Forms.TreeNode,System.Object,System.String)">
+	<summary>
+ Dumps the object.
+ </summary>
+	<param name="node">The node.</param>
+	<param name="value">The object.</param>
+</member><member name="M:NurSamplePC.Info.GetVersions(NurApiDotNet.NurApi)">
+	<summary>
+ Returns the current mode, primary and secondary version information.
+ The NurApiDotNet.dll version 1.6.1 (and older) have a bug in
+ NurApi.GetVersions method. This workaround fix the issue.
+ </summary>
+</member><member name="M:NurSamplePC.Info.MeasureReflectedPowers(NurApiDotNet.NurApi,System.Windows.Forms.TreeNode)">
+	<summary>
+ Measures the Reflected Powers from enabled antennas.
+ </summary>
+	<param name="hNur">The NUR module handler.</param>
+	<param name="node">The TreeView node.</param>
+	<returns>True is Poor Antenna Found</returns>
+</member><member name="M:NurSamplePC.Info.tabControl1_Click(System.Object,System.EventArgs)">
+	<summary>
+ Refresh information.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+</member><member name="F:NurSamplePC.NXP.components">
+	<summary> 
+ Required designer variable.
+ </summary>
+</member><member name="M:NurSamplePC.NXP.Dispose(System.Boolean)">
+	<summary> 
+ Clean up any resources being used.
+ </summary>
+	<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+</member><member name="M:NurSamplePC.NXP.InitializeComponent">
+	<summary> 
+ Required method for Designer support - do not modify 
+ the contents of this method with the code editor.
+ </summary>
+</member><member name="F:NurSamplePC.Connection.components">
+	<summary> 
+ Required designer variable.
+ </summary>
+</member><member name="M:NurSamplePC.Connection.Dispose(System.Boolean)">
+	<summary> 
+ Clean up any resources being used.
+ </summary>
+	<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+</member><member name="M:NurSamplePC.Connection.InitializeComponent">
+	<summary> 
+ Required method for Designer support - do not modify 
+ the contents of this method with the code editor.
+ </summary>
+</member><member name="F:NurSamplePC.Info.components">
+	<summary> 
+ Required designer variable.
+ </summary>
+</member><member name="M:NurSamplePC.Info.Dispose(System.Boolean)">
+	<summary> 
+ Clean up any resources being used.
+ </summary>
+	<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+</member><member name="M:NurSamplePC.Info.InitializeComponent">
+	<summary> 
+ Required method for Designer support - do not modify 
+ the contents of this method with the code editor.
+ </summary>
+</member><member name="F:NurSamplePC.Locator.components">
+	<summary> 
+ Required designer variable.
+ </summary>
+</member><member name="M:NurSamplePC.Locator.InitializeComponent">
+	<summary> 
+ Required method for Designer support - do not modify 
+ the contents of this method with the code editor.
+ </summary>
+</member><member name="F:NurSamplePC.NurCapabilities.hNur">
+	<summary>
+ The Handle of NurApi
+ </summary>
+</member><member name="F:NurSamplePC.NurCapabilities.m_readerInfo">
+	<summary>
+ The local reader info
+ </summary>
+</member><member name="F:NurSamplePC.NurCapabilities.devCaps">
+	<summary>
+ The current Device Capabilites
+ </summary>
+</member><member name="F:NurSamplePC.NurCapabilities.instance">
+	<summary>
+ Allocate ourselves.
+ We have a private constructor, so no one else can.
+ </summary>
+</member><member name="P:NurSamplePC.NurCapabilities.I">
+	<summary>
+ Access NurCapabilities.Instance to get the singleton object.
+ Then call methods on that instance.
+ </summary>
+</member><member name="P:NurSamplePC.NurCapabilities.Nur">
+	<summary>
+ Gets or sets the nur.
+ </summary>
+	<value>
+ The nur.
+ </value>
+</member><member name="M:NurSamplePC.NurCapabilities.hNur_ConnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the ConnectedEvent event of the hNur control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+	<exception cref="T:System.NotImplementedException"></exception>
+</member><member name="M:NurSamplePC.NurCapabilities.hNur_DisconnectedEvent(System.Object,NurApiDotNet.NurApi.NurEventArgs)">
+	<summary>
+ Handles the DisconnectedEvent event of the hNur control.
+ </summary>
+	<param name="sender">The source of the event.</param>
+	<param name="e">The <see cref="T:NurApiDotNet.NurApi.NurEventArgs"/> instance containing the event data.</param>
+	<exception cref="T:System.NotImplementedException"></exception>
+</member><member name="P:NurSamplePC.NurCapabilities.ReaderInfo">
+	<summary>
+ Gets the reader info.
+ </summary>
+	<value>
+ The reader info.
+ </value>
+</member><member name="P:NurSamplePC.NurCapabilities.DeviceCaps">
+	<summary>
+ Gets the device capabilites.
+ </summary>
+	<value>
+ The device capabilites.
+ </value>
+</member><member name="F:NurSamplePC.NurCapabilities.nurItems">
+	<summary>
+ The Nur Capability items
+ </summary>
+</member><member name="T:NurSamplePC.NurCapabilities">
+	<summary>
+ NurCapabilities class
+ </summary>
+</member><member name="F:NurSamplePC.NurTagDataListView.components">
+	<summary> 
+ Required designer variable.
+ </summary>
+</member><member name="M:NurSamplePC.NurTagDataListView.Dispose(System.Boolean)">
+	<summary> 
+ Clean up any resources being used.
+ </summary>
+	<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+</member><member name="M:NurSamplePC.NurTagDataListView.InitializeComponent">
+	<summary> 
+ Required method for Designer support - do not modify 
+ the contents of this method with the code editor.
+ </summary>
+</member><member name="F:NurSamplePC.NurTagListView.components">
+	<summary> 
+ Required designer variable.
+ </summary>
+</member><member name="M:NurSamplePC.NurTagListView.Dispose(System.Boolean)">
+	<summary> 
+ Clean up any resources being used.
+ </summary>
+	<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+</member><member name="M:NurSamplePC.NurTagListView.InitializeComponent">
+	<summary> 
+ Required method for Designer support - do not modify 
+ the contents of this method with the code editor.
+ </summary>
+</member>
+</members>
+</doc>
