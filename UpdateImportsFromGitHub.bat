@@ -2,7 +2,7 @@
 
 @SET GETTER=wget.exe
 @SET SDK_REPO=nur_sdk
-@SET REMOTE_BASE=https://github.com/NordicID/%SDK_REPO%/tree/master
+@SET REMOTE_BASE=https://github.com/NordicID/%SDK_REPO%/raw/master
 @SET LOCAL_IMPORTDIR=import
 
 @REM ********************************************
@@ -19,7 +19,7 @@
 %GETTER% -q %REMOTE_BASE%/dotnet/dotnet_cf_vs2008/NurApiDotNetWCE.dll -O %LOCAL_IMPORTDIR%\dotnet\dotnet_cf_vs2008\NurApiDotNetWCE.dll
 
 @REM Copy XML help from VS2005
-@copy %LOCAL_IMPORTDIR%\dotnet\dotnet_cf_vs2005\NurApiDotNet.XML %LOCAL_IMPORTDIR%\dotnet\dotnet_cf_vs2008\ /y
+@copy %LOCAL_IMPORTDIR%\dotnet\dotnet_cf_vs2005\NurApiDotNetWCE.XML %LOCAL_IMPORTDIR%\dotnet\dotnet_cf_vs2008\ /y
 
 @REM ********************************************
 @REM Windows .NET API
@@ -27,19 +27,19 @@
 @SET LOCAL_TARGET_BASE=%LOCAL_IMPORTDIR%\dotnet\dotnet_windows
 
 @REM Target: %LOCAL_TARGET_BASE%\AnyCPU\NurApiDotNet.dll
-%GETTER% -q %REMOTE_BASE%/AnyCPU/NurApiDotNet.dll -O %LOCAL_TARGET_BASE%\AnyCPU\NurApiDotNet.dll
+%GETTER% -q %REMOTE_BASE%/dotnet/dotnet_windows/AnyCPU/NurApiDotNet.dll -O %LOCAL_TARGET_BASE%\AnyCPU\NurApiDotNet.dll
 
 @REM Target: %LOCAL_TARGET_BASE%\x64\NurApiDotNet.dll
-%GETTER% -q %REMOTE_BASE%/x64/NurApiDotNet.dll -O %LOCAL_TARGET_BASE%\x64\NurApiDotNet.dll
+%GETTER% -q %REMOTE_BASE%/dotnet/dotnet_windows/x64/NurApiDotNet.dll -O %LOCAL_TARGET_BASE%\x64\NurApiDotNet.dll
 
 @REM Target: %LOCAL_TARGET_BASE%\x86_ansi\NurApiDotNet.dll
-%GETTER% -q %REMOTE_BASE%/x86_ansi/NurApiDotNet.dll -O %LOCAL_TARGET_BASE%\x86_ansi\NurApiDotNet.dll
+%GETTER% -q %REMOTE_BASE%/dotnet/dotnet_windows/x86_ansi/NurApiDotNet.dll -O %LOCAL_TARGET_BASE%\x86_ansi\NurApiDotNet.dll
 
 @REM Target: %LOCAL_TARGET_BASE%\x86\NurApiDotNet.dll
-%GETTER% -q %REMOTE_BASE%/x86/NurApiDotNet.dll -O %LOCAL_TARGET_BASE%\x86\NurApiDotNet.dll
+%GETTER% -q %REMOTE_BASE%/dotnet/dotnet_windows/x86/NurApiDotNet.dll -O %LOCAL_TARGET_BASE%\x86\NurApiDotNet.dll
 
 @REM Target: %LOCAL_TARGET_BASE%\x86\NurApiDotNet.XML
-%GETTER% -q %REMOTE_BASE%/x86/NurApiDotNet.XML -O %LOCAL_TARGET_BASE%\x86\NurApiDotNet.XML
+%GETTER% -q %REMOTE_BASE%/dotnet/dotnet_windows/x86/NurApiDotNet.XML -O %LOCAL_TARGET_BASE%\x86\NurApiDotNet.XML
 
 @REM Copy XML help from x86
 @copy %LOCAL_TARGET_BASE%\x86\NurApiDotNet.XML %LOCAL_TARGET_BASE%\AnyCPU\ /y

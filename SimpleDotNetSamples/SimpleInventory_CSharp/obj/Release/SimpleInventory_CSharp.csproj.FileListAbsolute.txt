@@ -1,0 +1,11 @@
+C:\Github\nur_sample_windows\SimpleDotNetSamples\SimpleInventory_CSharp\obj\Release\ResolveAssemblyReference.cache
+C:\Github\nur_sample_windows\SimpleDotNetSamples\SimpleInventory_CSharp\obj\Release\Inventory.Form1.resources
+C:\Github\nur_sample_windows\SimpleDotNetSamples\SimpleInventory_CSharp\obj\Release\Inventory.Properties.Resources.resources
+C:\Github\nur_sample_windows\SimpleDotNetSamples\SimpleInventory_CSharp\obj\Release\SimpleInventory_CSharp.csproj.GenerateResource.Cache
+C:\Github\nur_sample_windows\SimpleDotNetSamples\SimpleInventory_CSharp\bin\Release\NURAPI.dll
+C:\Github\nur_sample_windows\SimpleDotNetSamples\SimpleInventory_CSharp\bin\Release\Inventory.exe
+C:\Github\nur_sample_windows\SimpleDotNetSamples\SimpleInventory_CSharp\bin\Release\Inventory.pdb
+C:\Github\nur_sample_windows\SimpleDotNetSamples\SimpleInventory_CSharp\bin\Release\NurApiDotNet.dll
+C:\Github\nur_sample_windows\SimpleDotNetSamples\SimpleInventory_CSharp\bin\Release\NurApiDotNet.xml
+C:\Github\nur_sample_windows\SimpleDotNetSamples\SimpleInventory_CSharp\obj\Release\Inventory.exe
+C:\Github\nur_sample_windows\SimpleDotNetSamples\SimpleInventory_CSharp\obj\Release\Inventory.pdb
