@@ -33,10 +33,7 @@
 #define NUR_DEFAULT_BAUDRATE	(115200)
 
 /** Maximum number of GPIOs. */
-#define NUR_MAX_GPIO			(7)
-
-/** Maximum number of regions. */
-#define NUR_MAX_CONFIG_REGIONS  17
+#define NUR_MAX_GPIO			(8)
 
 /** Maximum number of invetoryex filters. */
 #define NUR_MAX_FILTERS			(8)
@@ -71,6 +68,13 @@
 #define NUR_RXSENS_NOMINAL	0
 /** Receiver sensitivity "high" setting.  */
 #define NUR_RXSENS_HIGH		2
+
+/** Robust RF profile. This profile is recommended to use in noisy RF environments. */
+#define NUR_RFPROFILE_ROBUST		0
+/** Nominal RF profile. This profile works good in most environments. */
+#define NUR_RFPROFILE_NOMINAL		1
+/** High speed RF profile. This profile provides best throughput, but is prone to RF interference. */
+#define NUR_RFPROFILE_HIGHSPEED		2
 
 /** Maximum length of antenna mapping's name. */
 #define MAX_MAPPINGLEN	16
@@ -131,6 +135,8 @@
 #define NUR_TAM_MAXBLOCKS		4
 /** ISO 29167-10 authentication: size of single custom data block in bytes. */
 #define NUR_SZ_TAM2_BLOCK		8	
+/** ISO29167-10 authentication: size of protection mode 2,3 CMAC in bytes. */
+#define NUR_SZ_TAM2_CMACLEN		12	
 /** ISO 29167-10 authentication: maximum block offset/address value. */
 #define NUR_MAX_TAM_OFFSET		0xFFF
 /** ISO 29167-10 defined prepended constant for decryption check. */
@@ -231,6 +237,7 @@ enum NUR_NOTIFICATION
 	NUR_NOTIFICATION_TT_STREAM,				/**< internal event */
 	NUR_NOTIFICATION_TT_CHANGED,			/**< Tag tracking event */
 	NUR_NOTIFICATION_TT_SCANEVENT,			/**< Tag tracking scan start/stop event */
+	NUR_NOTIFICATION_DIAG_REPORT,			/**< Diagnostics report */
 	NUR_NOTIFICATION_LAST
 };
 
@@ -440,9 +447,14 @@ enum NUR_REGIONID
 	NUR_REGIONID_PHILIPPINES,	/**< Philippines (NUR Fw 3.0-A or later) */
 	NUR_REGIONID_MOROCCO,		/**< Morocco (NUR Fw 5.0-A or later) */
 	NUR_REGIONID_PERU,			/**< Peru (NUR Fw 5.0-A or later) */
-	NUR_REGIONID_CUSTOM = 0xFE,	/**< Custom hop table */
-	NUR_REGIONID_LAST
+	NUR_REGIONID_ISRAEL,		/**< Israel (NUR Fw 5.6-A or later) */
+	NUR_REGIONID_HONGKONG,		/**< Hong Kong (NUR Fw 5.7-A or later) */
+	NUR_REGIONID_LAST = NUR_REGIONID_HONGKONG,	/**< Defines the last available region ID before the custom. */
+	NUR_REGIONID_CUSTOM = 0xFE,	/**< Custom hop table */	
 };
+
+/** Maximum number of regions. */
+#define NUR_MAX_CONFIG_REGIONS  (NUR_REGIONID_LAST + 1)
 
 /**
  * RX coding indices
@@ -618,7 +630,10 @@ enum NUR_MODULESETUP_FLAGS
 	NUR_SETUP_PERANTPOWER_EX = (1<<27), /**< antPowerEx field in struct NUR_MODULESETUP is valid */
 	NUR_SETUP_RXSENS		= (1<<28), /**< rxSensitivity field in struct NUR_MODULESETUP is valid */
 
-	NUR_SETUP_ALL			=	((1 << 29) - 1)	/**< All setup flags in the structure. */
+	// ADDED NUR2 7.0
+	NUR_SETUP_RFPROFILE		= (1<<29), /**< rfProfile field in struct NUR_MODULESETUP is valid */
+
+	NUR_SETUP_ALL			=	((1 << 30) - 1)	/**< All setup flags in the structure. */
 };
 
 /** Possible inventory targets. 
@@ -672,8 +687,16 @@ enum NUR_IRTYPE
 {
 	NUR_IR_EPCDATA = 0,			/**< EPC + data combined, Duplicates are stripped by EPC */	
 	NUR_IR_DATAONLY,			/**< Duplicates are stripped based on data */	
-	NUR_IR_LAST = NUR_IR_DATAONLY
+	NUR_IR_EPCXTID,				/**< XTID based read result is appended to the EPC. */	
+	NUR_IR_XTIDONLY,			/**< Duplicates are stripped based on XTID read data */	
+	NUR_IR_LAST = NUR_IR_XTIDONLY
 };
+
+
+/**
+ * Use this flag with the XTID based inventory + read to include all of the TID data. 
+ */	
+#define NUR_IR_XTID_EX_FLAG	0x80
 
 /** Operation flags. 
  * @sa NurApiSetModuleSetup(), NurApiGetModuleSetup(), struct NUR_MODULESETUP
@@ -682,12 +705,12 @@ enum NUR_OPFLAGS
 {
 	NUR_OPFLAGS_EN_HOPEVENTS = (1<<0),		/**< Notification NUR_NOTIFICATION_HOPEVENT is enabled. */
 	NUR_OPFLAGS_INVSTREAM_ZEROS = (1<<1),	/**< Inventory stream frunction will report zero count inventory rounds also. */
-	NUR_OPFLAGS_INVENTORY_TID = (1<<2),	
-	NUR_OPFLAGS_INVENTORY_READ = (1<<3),
+	NUR_OPFLAGS_INVENTORY_TID = (1<<2),		/**< DO NOT USE */
+	NUR_OPFLAGS_INVENTORY_READ = (1<<3),	/**< DO NOT USE */
 	/* Keyboard : scan single -> key presses */
-	NUR_OPFLAGS_SCANSINGLE_KBD	= (1<<4),
-	NUR_OPFLAGS_STANDALONE_APP1	= (1<<5),
-	NUR_OPFLAGS_STANDALONE_APP2	= (1<<6),
+	NUR_OPFLAGS_SCANSINGLE_KBD	= (1<<4),	/**< DO NOT USE */
+	NUR_OPFLAGS_STANDALONE_APP1	= (1<<5),	/**< DO NOT USE */
+	NUR_OPFLAGS_STANDALONE_APP2	= (1<<6),	/**< DO NOT USE */
 	NUR_OPFLAGS_EXTIN_EVENTS 	= (1<<7),
 	// Ext out lines 0-3 can be set to predefined state after boot.
 	NUR_OPFLAGS_STATE_EXTOUT_0 	= (1<<8),
@@ -695,7 +718,8 @@ enum NUR_OPFLAGS
 	NUR_OPFLAGS_STATE_EXTOUT_2 	= (1<<10),
 	NUR_OPFLAGS_STATE_EXTOUT_3 	= (1<<11),
 	NUR_OPFLAGS_EN_TUNEEVENTS   = (1<<12),		/**< Notification NUR_NOTIFICATION_TUNEEVENT is enabled. */
-	NUR_OPFLAGS_EN_EXACT_BLF   = (1<<13),		/**< Return exact BLF in Hz in tag meta data frequency field. */
+	NUR_OPFLAGS_EN_EXACT_BLF    = (1<<13),		/**< Return exact BLF in Hz in tag meta data frequency field. Supported only in NUR L2 modules. */
+	NUR_OPFLAGS_EN_TAG_PHASE	= (1<<14),		/**< Return tag phase angle in units of tenths of degrees in tag meta data timestamp field. Supported only in NUR2 modules. */
 };
 
 /**
@@ -784,7 +808,10 @@ enum NUR_DEVCAPS_F1
 	NUR_DC_FETCHSINGLE	= (1<<21),  /**< This module supports fetching tags one by one. */
 	NUR_DC_ANTENNAMAP	= (1<<22),  /**< This module provides antenna mapping information. */
 	NUR_DC_GEN2VER2		= (1<<23),  /**< The module FW supports Gen2 version 2 at some level. */
-	NUR_DC_LASTBITF1	= (1<<24),	/**< Next available bit for future extensions. */	
+	NUR_DC_RFPROFILE	= (1<<24),  /**< The module FW supports RF profile setting. */
+	NUR_DC_DIAG	        = (1<<25),	/**< This module FW supports diagnostics commands. */
+	NUR_DC_TAGPHASE     = (1<<26),	/**< This module FW supports tag phase info. see NUR_OPFLAGS_EN_TAG_PHASE */
+	NUR_DC_LASTBITF1	= (1<<27),	/**< Next available bit for future extensions. */
 };
 
 /** Flag field 1 'all device caps' bitmask. */
@@ -807,7 +834,9 @@ enum NUR_CHIPVER
 	/** Chip version AS3992 */
 	NUR_CHIPVER_AS3992 = 1,
 	/** Chip version AS3993 */
-	NUR_CHIPVER_AS3993 = 2
+	NUR_CHIPVER_AS3993 = 2,
+	/** Chip version R2000 */
+	NUR_CHIPVER_R2000 = 3
 };
 
 /**
@@ -823,7 +852,9 @@ enum NUR_MODULETYPE
 	/** Module type NUR05WL2 */
 	NUR_MODULETYPE_NUR05WL2 = 3,
 	/** Module type NUR10W (1W module)*/
-	NUR_MODULETYPE_NUR10W = 4
+	NUR_MODULETYPE_NUR10W = 4,
+	/** Module type NUR2-1W (1W module)*/
+	NUR_MODULETYPE_NUR2_1W = 5
 };
 
 /**
@@ -840,17 +871,54 @@ enum NUR_GANT_TUNE
 };
 
 /**
-* WLAN status bits
-*/
+ * WLAN status bits
+ */
 enum WLAN_STATUS
 {
-	STATUS_BIT_CONNECTION = (1<<0),		/* the device is connected to the AP */
-    STATUS_BIT_STA_CONNECTED = (1<<1),  /* client is connected to device */
-    STATUS_BIT_IP_ACQUIRED = (1<<2),    /* the device has acquired an IP */
-    STATUS_BIT_IP_LEASED = (1<<3),      /* the device has leased an IP */
-    STATUS_BIT_CONNECTION_FAILED = (1<<4),   /* failed to connect to device */
+	STATUS_BIT_CONNECTION = (1<<0),		/**< the device is connected to the AP */
+    STATUS_BIT_STA_CONNECTED = (1<<1),  /**< client is connected to device */
+    STATUS_BIT_IP_ACQUIRED = (1<<2),    /**< the device has acquired an IP */
+    STATUS_BIT_IP_LEASED = (1<<3),      /**< the device has leased an IP */
+    STATUS_BIT_CONNECTION_FAILED = (1<<4), /**< failed to connect to device */
 };
 
+/**
+ * Flags for diagnostics configuration.
+ * @sa NurApiDiagGetConfig
+ * @sa NurApiDiagSetConfig
+ * @sa NUR_NOTIFICATION_DIAG_REPORT
+ */
+enum NUR_DIAG_CFG_FLAGS
+{	
+	NUR_DIAG_CFG_NOTIFY_NONE = 0,				/**< Never send diagnostics report notification */
+	NUR_DIAG_CFG_NOTIFY_PERIODIC = (1<<0),		/**< Send diagnostics report notification periodically. @sa NurApiDiagSetConfig @sa NUR_NOTIFICATION_DIAG_REPORT */
+	NUR_DIAG_CFG_NOTIFY_WARN = (1<<1),			/**< Send diagnostics report notification on warning/error. @sa NurApiDiagSetConfig @sa NUR_NOTIFICATION_DIAG_REPORT */
+	NUR_DIAG_CFG_FW_ERROR_LOG = (1<<2),			/**< Module sends error log messages. Messages are prefixed with "FW:". @sa NUR_NOTIFICATION_LOG */
+	NUR_DIAG_CFG_FW_DEBUG_LOG = (1<<3),			/**< Module sends verbose debug log messages. Messages are prefixed with "FW:". @sa NUR_NOTIFICATION_LOG */
+};
+
+/**
+ * Flags for NurApiDiagGetReport function.
+ * @sa NurApiDiagGetReport
+ */
+enum NUR_DIAG_GETREPORT_FLAGS
+{
+	NUR_DIAG_GETREPORT_NONE = 0,				/**< None */
+	NUR_DIAG_GETREPORT_RESET_STATS = (1<<0),	/**< Reset all diagnostics statistics to zero. */
+};
+
+/**
+ * Flags for diagnostics report. see struct NUR_DIAG_REPORT.
+ * @sa struct NUR_DIAG_REPORT
+ * @sa NurApiDiagGetReport
+ */
+enum NUR_DIAG_REPORT_FLAGS
+{
+	NUR_DIAG_REPORT_PERIODIC = (1<<0),	/**< Set in NUR_DIAG_REPORT.flags when module sends periodic report. */
+	NUR_DIAG_REPORT_TEMP_HIGH = (1<<1),	/**< Set in NUR_DIAG_REPORT.flags if module temperature is high. Host application SHOULD stop performing RF operations for a while. */
+	NUR_DIAG_REPORT_TEMP_OVER = (1<<2),	/**< Set in NUR_DIAG_REPORT.flags if module temperature is over limits. All RF operations will fail with error NUR_ERROR_OVER_TEMP in this stage. */
+	NUR_DIAG_REPORT_LOWVOLT = (1<<3),	/**< Set in NUR_DIAG_REPORT.flags if low voltage is detected. All RF operations will fail with error NUR_ERROR_LOW_VOLTAGE in this stage. */
+};
 
 /** @} */ // end of API
 

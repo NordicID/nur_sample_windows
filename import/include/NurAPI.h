@@ -608,6 +608,9 @@ struct NUR_MODULESETUP
 
 	/** The receiver sensitivity field. 0 = Nominal, 1 = Low, 2 = High */
 	int rxSensitivity;
+
+	/** The RF profile. 0 = Robust, 1 = Nominal, 2 = High speed */
+	int rfProfile;
 };
 
 /**
@@ -1024,6 +1027,7 @@ struct NUR_TAM_RESP
 	BYTE challenge[TAM_CHALLENGE_BYTELEN]; /**< The challenge used in TAM1 or 2. */
 	BYTE firstBlock[NUR_TAM_KEYLEN]; /**< Decrypted or raw contents of the first block. */
 	BYTE blockData[NUR_TAM_MAXBLOCKS * NUR_SZ_TAM2_BLOCK];	/**< Block data if custom data was requested. */
+	BYTE cmac[NUR_SZ_TAM2_CMACLEN];	/**< CMAC data if protection mode 2,3. */
 };
 
 /**
@@ -1144,6 +1148,34 @@ struct NUR_WLAN_SCAN_RESULT
 	BYTE secType;		/**< Security type: Open,WEP WPA1, WPA2 */	
 	BYTE rssi;			/**< RSSI */
 	BYTE reserved[10];	/**< Reserved */	
+};
+
+/**
+ * Diagnostics report data.
+ * @sa NurApiDiagGetReport
+ * @sa NurApiDiagGetConfig
+ * @sa NurApiDiagSetConfig
+ */
+struct NUR_DIAG_REPORT
+{
+	DWORD flags;		/**< Report flags. see enum NUR_DIAG_REPORT_FLAGS */
+	DWORD uptime;		/**< Uptime in milliseconds */
+	DWORD rfActiveTime;	/**< RF on time in milliseconds */
+	int   temperature;	/**< Temperature in celcius. 1000 if not supported */
+	DWORD bytesIn;		/**< Number of bytes in to module */
+	DWORD bytesOut;		/**< Number of bytes out from module */
+	DWORD bytesIgnored;	/**< Number of ignored (invalid) bytes */
+	DWORD antennaErrors; /**< Number of bad antenna errors */
+	DWORD hwErrors;		/**< Number of automatically recovered internal HW failures */
+	DWORD invTags;		/**< Number of successfully inventoried tags */
+	DWORD invColl;		/**< Number of collisions during inventory */
+	DWORD readTags;		/**< Number of successfully read tag commands */
+	DWORD readErrors;	/**< Number of failed read tag commands */
+	DWORD writeTags;	/**< Number of successfully write tag commands */
+	DWORD writeErrors;	/**< Number of failed write tag commands */
+	DWORD errorConds;	/**< Number of temporary error conditions (over temp, low voltage) occured */
+	DWORD setupErrs;	/**< Number of invalid setup errors */
+	DWORD invalidCmds;	/**< Number of invalid (not supported) commands received */
 };
 
 /** 
@@ -1522,6 +1554,19 @@ void NURAPICONV NurApiSetContext(HANDLE hApi, LPVOID ctx);
 NUR_API
 LPVOID NURAPICONV NurApiGetContext(HANDLE hApi);
 
+/** @fn DWORD NurApiGetLastNotificationStatus(HANDLE hApi)
+ * Get last notification status code.
+ * Get last notification status code, this one of the NUR_ERRORCODES.
+ * NOTE: This is function returns valid status only when called from application NotificationCallback.
+ *
+ * @sa enum NUR_ERRORCODES, enum NUR_NOTIFICATION, NurApiSetNotificationCallback, NotificationCallback
+ *
+ * @param	hApi	Handle to valid NurApi object instance.
+ * @return	Zero when no error, On error non-zero error code (NUR_ERRORCODES) is returned.
+ */
+NUR_API
+DWORD NURAPICONV NurApiGetLastNotificationStatus(HANDLE hApi);
+
 /** @fn int NurApiSetNotificationCallback(HANDLE hApi, NotificationCallback nFunc)
  * Set notification receive function.
  * Set function that receives all notification events specific to this NurApi instance. 
@@ -1615,6 +1660,21 @@ int NURAPICONV NurApiConnectSerialPortEx(HANDLE hApi, const TCHAR *portName, int
  */
 NUR_API
 int NURAPICONV NurApiConnectSocket(HANDLE hApi, const TCHAR *ip, int port);
+
+/** @fn int NurApiConnectAppleBLE(HANDLE hApi, void * readDataFunction, void * writeDataFunction, void * disconnectFunction)
+ * Connect to NUR module using Apple Bluetooth LE transport.
+ *
+ * @sa NurApiConnectSerialPort(), NurApiConnectSocket(), NurApiConnectTransport(), NurApiConnect(), NurApiConnectTransportSpec(),
+ * 	   NurApiIsConnected(), NurApiDisconnect()
+ *
+ * @param	hApi		Handle to valid NurApi object instance.
+ * @param	readDataFunction	a function that handles reading data from the Bluetooth LE stack.
+ * @param	writeDataFunction a function that handles writing data to the Bluetooth LE stack.
+ * @param	disconnectFunction a function that handles disconnecting from the Bluetooth LE stack.
+ * @return	Zero if connection succeeded, non-zero error code on failure.
+ */
+NUR_API
+int NURAPICONV NurApiConnectAppleBLE(HANDLE hApi, void * readDataFunction, void * writeDataFunction, void * disconnectFunction);
 
 /** @fn int NurApiStopServer(HANDLE hApi)
  * Stop TCP/IP server. Server thread exit. Client connections will remains if any.
@@ -2340,11 +2400,11 @@ NUR_API
 BOOL NURAPICONV NurApiIsInventoryExRunning(HANDLE hApi);
 
 
-/** @fn BOOL NurApiTIDInventory(HANDLE hApi, DWORD firstWord, DWORD nWords)
+/** @fn int NurApiTIDInventory(HANDLE hApi, DWORD firstWord, DWORD nWords)
  *
  * Configures current inventory so that the TID data is returned instead of EPC in specified manner.
  *
- * @sa NurApiUserMemInventory(), NurApiInventoryRead() 
+ * @sa NurApiUserMemInventory(), NurApiInventoryRead(), NurApiStartXTIDInventory 
  * @sa NurApiInventoryRead(), NurApiGetInventoryRead(), NurApiInventoryReadCtl()
  * 
  * @param	hApi			Handle to valid NurApi object instance.
@@ -2356,10 +2416,10 @@ BOOL NURAPICONV NurApiIsInventoryExRunning(HANDLE hApi);
 NUR_API
 int NURAPICONV NurApiTIDInventory(HANDLE hApi, DWORD firstWord, DWORD nWords);
 
-/** @fn BOOL NurApiUserMemInventory(HANDLE hApi, DWORD firstWord, DWORD nWords)
+/** @fn int NurApiUserMemInventory(HANDLE hApi, DWORD firstWord, DWORD nWords)
  * Configures current inventory so that the user memory data is returned instead of EPC in specified manner.
  *
- * @sa NurApiTIDInventory(), NurApiInventoryRead() 
+ * @sa NurApiTIDInventory(), NurApiInventoryRead(), NurApiStartXTIDInventory 
  * @sa NurApiInventoryRead(), NurApiGetInventoryRead(), NurApiInventoryReadCtl()
  * 
  * @param	hApi			Handle to valid NurApi object instance.
@@ -2370,6 +2430,21 @@ int NURAPICONV NurApiTIDInventory(HANDLE hApi, DWORD firstWord, DWORD nWords);
  */
 NUR_API
 int NURAPICONV NurApiUserMemInventory(HANDLE hApi, DWORD firstWord, DWORD nWords);
+
+/** @fn int NurApiConfigXTIDInventory(HANDLE hApi, BOOL dataOnly, BOOL includeHeader);
+ * Configures the TID/XTID based inventory + read.
+ *
+ * @sa NurApiTIDInventory(), NurApiInventoryRead() 
+ * @sa NurApiInventoryRead(), NurApiGetInventoryRead(), NurApiInventoryReadCtl()
+ * 
+ * @param	hApi			Handle to valid NurApi object instance.
+ * @param	dataOnly		If TRUE then the XTID based read result is returned in the place of the EPC. Otherwise the XTID based read result is appended to the EPC.
+ * @param	includeHeader	If this is set to TRUE, then the reader will include all of the TID data in the tag data.
+ *
+ * @return	Zero when successful, error code otherwise.
+ */
+NUR_API
+int NURAPICONV NurApiConfigXTIDInventory(HANDLE hApi, BOOL dataOnly, BOOL includeHeader);
 
 /** @fn BOOL NurApiInventoryRead(HANDLE hApi, BOOL on, DWORD dwType, DWORD dwBank, DWORD dwAddress, DWORD nWords)
  * Configures following inventoryies to do an inventory + read operation in a specified manner.
@@ -4053,6 +4128,19 @@ int NURAPICONV NurApiCustomCmd(HANDLE hApi, BYTE cmd, BYTE *inbuffer, DWORD inbu
 NUR_API
 int NURAPICONV NurApiTuneAntenna(HANDLE hApi, int antenna, BOOL wideTune, BOOL bSaveResults, int *dBmResults);
 
+/** @fn int NurApiProductionTune(HANDLE hApi, BYTE *code, int *dBmResults)
+ * Executes an production tune. NOTE: Only used at Nordic ID production.
+ *
+ * @param hApi            	Handle to valid NurApi object instance
+ * @param code       		Production tune code
+ * @param dBmResults		Pointer to 6 integer values. The reflected power will be stored into these values in format dBm * 1000.
+ *							This parameter may be NULL.
+ *
+ * @return	Zero when succeeded, on error non-zero error code is returned.
+ */
+NUR_API
+int NURAPICONV NurApiProductionTune(HANDLE hApi, BYTE *code, int *dBmResults);
+
 /** @fn int NurApiRestoreTuning(HANDLE hApi, BOOL factoryReset)
  * Executes an antenna tune.
  *
@@ -4803,7 +4891,7 @@ int NURAPICONV NurApiISO29167_10_TAM(HANDLE hApi, struct NUR_TAM_PARAM *pTAM, st
  *
  * @param	hApi			Handle to valid NurApi object instance.
  * @param	cfg				Pointer to NUR_TAGTRACKING_CONFIG parameters.
- * @param	cfgSize			Size of <i>cfg</i> structure in bytes..
+ * @param	cfgSize			Size of <i>cfg</i> structure in bytes.
  *
  * @return	Zero when succeeded, On error non-zero error code is returned.
  */
@@ -4850,14 +4938,167 @@ NUR_API
 int NURAPICONV NurApiTagTrackingGetTags(HANDLE hApi, DWORD events, struct NUR_TT_TAG *tagDataBuffer, int *tagDataCount, DWORD szSingleEntry);
 
 /** @fn int NurApiSetHostFlags(HANDLE hApi, TCHAR* resp, DWORD hostFlags)
+ *
  * Set module host flags. Uses NurApiPing to send the selected flags to the device. 
+ *
  * @param	hApi	Handle to valid NurApi object instance.
  * @param	resp	Pointer to a buffer that receives ping response. This parameter can be NULL. <b>NOTE: If not NULL, buffer must be atleast 16 TCHARs long</b>.
  * @param	hostFlags Host configuration flags. See NUR_HOSTFLAGS
  * @return	Zero when succeeded, On error non-zero error code is returned.
+ * @sa enum NUR_HOSTFLAGS
  */
 NUR_API
 int NURAPICONV NurApiSetHostFlags(HANDLE hApi, TCHAR* resp, DWORD hostFlags);
+
+/** @fn int NurApiGetMode(HANDLE hApi, char *mode)
+ *
+ * Get NUR module running mode.
+ * @param	hApi	Handle to valid NurApi object instance
+ * @param	mode	Mode character is stored here. 'A' for application and 'B' for bootloader.
+ * @return	Zero when succeeded, On error non-zero error code is returned.
+ */
+NUR_API
+int NURAPICONV NurApiGetMode(HANDLE hApi, char *mode);
+
+/** @fn int NurApiEnterBoot(HANDLE hApi)
+ *
+ * Enter bootloader or application. If in bootloader mode, application entered. If in application mode, bootloader is entered.
+ *
+ * @param	hApi			Handle to valid NurApi object instance
+ * @return	Zero when succeeded, On error non-zero error code is returned.
+ */
+NUR_API
+int NURAPICONV NurApiEnterBoot(HANDLE hApi);
+
+/** @fn int NurApiSetHopEvents(HANDLE hApi, BOOL enableEvents)
+ *
+ * Enable NUR_NOTIFICATION_HOPEVENT generation.
+ * NUR_NOTIFICATION_HOPEVENT is generated when ever RFID module hops to new operating frequency.
+ *
+ * @param	hApi			Handle to valid NurApi object instance
+ * @param   enableEvents	TRUE to enable, FALSE to disable
+ *
+ * @return	Zero when succeeded, On error non-zero error code is returned.
+ * @sa struct NUR_HOPEVENT_DATA
+ */
+NUR_API
+int NURAPICONV NurApiSetHopEvents(HANDLE hApi, BOOL enableEvents);
+
+/** @fn int NurApiProgramAppFile(HANDLE hApi, const TCHAR *fname)
+ *
+ * Program new firmware to NUR module.
+ * @sa NUR_NOTIFICATION_PRGPRGRESS in enum NUR_NOTIFICATION
+ *
+ * @param	hApi			Handle to valid NurApi object instance
+ * @param	fname			Path to firmware
+ *
+ * @return	Zero when succeeded, On error non-zero error code is returned.
+ * @remarks This command is available only in bootloader mode
+ * @sa NurApiEnterBoot(), NurApiGetMode(), NurApiProgramBootloaderFile()
+ */
+NUR_API
+int NURAPICONV NurApiProgramAppFile(HANDLE hApi, const TCHAR *fname);
+
+/** @fn int NurApiProgramBootloaderFile(HANDLE hApi, const TCHAR *fname)
+ *
+ * Program new bootloader to NUR module.
+ * @sa NUR_NOTIFICATION_PRGPRGRESS in enum NUR_NOTIFICATION
+ *
+ * @param	hApi			Handle to valid NurApi object instance
+ * @param	fname			Path to bootloader
+ *
+ * @return	Zero when succeeded, On error non-zero error code is returned.
+ * @remarks This command is available only in bootloader mode
+ * @sa NurApiEnterBoot(), NurApiGetMode(), NurApiProgramAppFile()
+ */
+NUR_API
+int NURAPICONV NurApiProgramBootloaderFile(HANDLE hApi, const TCHAR *fname);
+
+/** @fn int NurApiContCarrier(HANDLE hApi, BYTE *params, DWORD paramsLen)
+ *
+ * Set test modes with NUR module
+ *
+ * After sending this command the module will continue sending / receiving data
+ * as described below until NurApiStopContCarrier() is called.
+ *
+ * For parameter description, please refer to external document NUR_carrier.pdf
+ * or conact Nordic ID support.
+ *
+ * @sa NurApiStopContCarrier()
+ *
+ * @param	hApi			Handle to valid NurApi object instance
+ * @param	params			Parameter bytes to send
+ * @param	paramsLen		Length of params in bytes
+ *
+ * @return	Zero when succeeded, On error non-zero error code is returned.
+ */
+NUR_API
+int NURAPICONV NurApiContCarrier(HANDLE hApi, BYTE *params, DWORD paramsLen);
+
+/** @fn int NurApiStopContCarrier(HANDLE hApi)
+ *
+ * Stop continuous carrier setting
+ *
+ * @sa NurApiContCarrier()
+ *
+ * @param	hApi			Handle to valid NurApi object instance
+ *
+ * @return	Zero when succeeded, On error non-zero error code is returned.
+ */
+NUR_API
+int NURAPICONV NurApiStopContCarrier(HANDLE hApi);
+
+/** @fn int NurApiDiagGetReport(HANDLE hApi, DWORD flags, struct NUR_DIAG_REPORT *report, DWORD reportSize)
+ *
+ * Get diagnostics report from module.
+ *
+ * @sa struct NUR_DIAG_REPORT
+ * @sa enum NUR_DIAG_GETREPORT_FLAGS
+ *
+ * @param	hApi			Handle to valid NurApi object instance
+ * @param	flags			Bit flags to send with request. One or more of enum NUR_DIAG_GETREPORT_FLAGS.
+ * @param	report			Pointer to struct NUR_DIAG_REPORT parameters. Result is stored in this struct.
+ * @param	reportSize		Size of <i>report</i> structure in bytes.
+ *
+ * @return	Zero when succeeded, On error non-zero error code is returned.
+ */
+NUR_API
+int NURAPICONV NurApiDiagGetReport(HANDLE hApi, DWORD flags, struct NUR_DIAG_REPORT *report, DWORD reportSize);
+
+/** @fn int NurApiDiagGetConfig(HANDLE hApi, DWORD *flags, DWORD *interval)
+ *
+ * Get current diagnostics configuration.
+ *
+ * @sa NurApiDiagSetConfig
+ * @sa struct NUR_DIAG_REPORT
+ * @sa enum NUR_DIAG_GETREPORT_FLAGS
+ *
+ * @param	hApi			Handle to valid NurApi object instance
+ * @param	flags			Pointer to DWORD. Current flags. One or more of enum NUR_DIAG_CFG_FLAGS.
+ * @param	interval		Pointer to DWORD. Current report interval in seconds.
+ *
+ * @return	Zero when succeeded, On error non-zero error code is returned.
+ */
+NUR_API
+int NURAPICONV NurApiDiagGetConfig(HANDLE hApi, DWORD *flags, DWORD *interval);
+
+/** @fn int NurApiDiagSetConfig(HANDLE hApi, DWORD flags, DWORD interval)
+ *
+ * Set new diagnostics configuration.
+ *
+ * @sa NurApiDiagGetConfig
+ * @sa struct NUR_DIAG_REPORT
+ * @sa enum NUR_DIAG_GETREPORT_FLAGS
+ *
+ * @param	hApi			Handle to valid NurApi object instance
+ * @param	flags			Bit flags to send with request. One or more of enum NUR_DIAG_CFG_FLAGS.
+ * @param	interval		Report interval in seconds. Only valid if NUR_DIAG_CFG_NOTIFY_PERIODIC is set in flags. Set to 0 if NUR_DIAG_CFG_NOTIFY_PERIODIC is not set.
+ *
+ * @return	Zero when succeeded, On error non-zero error code is returned.
+ */
+NUR_API
+int NURAPICONV NurApiDiagSetConfig(HANDLE hApi, DWORD flags, DWORD interval);
+
 
 /** @example NurApiExample.cpp
  * Simple console application project.

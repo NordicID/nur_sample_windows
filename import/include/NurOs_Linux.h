@@ -11,7 +11,7 @@
 #include <ctype.h>
 #include <math.h>
 
-#ifdef __yocto__
+#if defined(__yocto__) || defined(__ANDROID__)
 #include <pthread.h>
 #endif
 
@@ -48,10 +48,13 @@ extern "C" {
 //#define NURAPI_WIDECHARS 1
 
 typedef unsigned long long ULONGLONG;
-typedef unsigned long ULONG;
 typedef long LONG;
 
-typedef unsigned int BOOL;
+#if !defined(__ios__) && !defined(__APPLE__) 
+    typedef unsigned long ULONG;
+    typedef unsigned int BOOL;
+#endif
+
 typedef unsigned int DWORD;
 typedef unsigned int UINT;
 typedef unsigned int UINT32;
