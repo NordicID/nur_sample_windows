@@ -113,8 +113,6 @@
       <DependentUpon>TagsPerBeamControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -133,7 +131,8 @@
     <None Include="GridAntennaSectors1.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="NURAPI.dll">
+    <Content Include="..\..\import\win_native\win32\NURAPI.dll">
+      <Link>NURAPI.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
