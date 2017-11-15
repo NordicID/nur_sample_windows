@@ -225,10 +225,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="nur.ico" />
-    <Content Include="NURAPI.dll">
+    <Content Include="..\..\import\win_native\win32\NURAPI.dll">
+      <Link>NURAPI.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="nur.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
