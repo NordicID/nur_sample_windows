@@ -1,0 +1,94 @@
+﻿<Page x:Class="NurApiSampleMvvm.AccessoryDevPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:vm="using:Mvvm"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:NurApiDotNetUWP="using:NurApiDotNet.UWP"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="ResultsListViewTemplate" x:DataType="vm:ListViewStringItem">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="100"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="1" Margin="3">
+                    <TextBlock TextWrapping="WrapWholeWords">
+                        <Run Text="{x:Bind Text, Mode=OneWay}"/>
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="Transparent">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Accessory Device"
+                   Foreground="{StaticResource PageForegroundBrush}"
+                   Margin="20"
+                   FontSize="24"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left" Grid.Row="0" />
+
+            <TextBlock Text="{x:Bind Path=ViewModel.AccInfo, Mode=OneWay}"
+                   Foreground="{StaticResource PageForegroundBrush}"
+                   Margin="20,0,0,0"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left" Grid.Row="1" />
+
+            <ListView VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="250" Margin="20"
+                  ItemTemplate="{StaticResource ResultsListViewTemplate}"
+                  ItemsSource="{x:Bind ViewModel.ListViewEntries, Mode=OneWay}"
+                  BorderThickness="1" Grid.Row="2"                  
+                  >
+                <ListView.BorderBrush>
+                    <SolidColorBrush Color="{ThemeResource SystemListMediumColor}"/>
+                </ListView.BorderBrush>
+            </ListView>
+
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <Button Command="{Binding BarcodeCommand}"
+                    IsEnabled="{x:Bind Path=ViewModel.ButtonState, Mode=OneWay}"
+                    HorizontalAlignment="Left"
+                    Margin="20"
+                    Content="Read Barcode" 
+                    Grid.Row="2">
+                </Button>
+
+                <Button Command="{Binding BeepCommand}"
+                    IsEnabled="{x:Bind Path=ViewModel.ButtonState, Mode=OneWay}"
+                    HorizontalAlignment="Left"
+                    Margin="20"
+                    Content="Beep" 
+                    Grid.Row="2">
+                </Button>
+
+                <Button Command="{Binding VibraCommand}"
+                    IsEnabled="{x:Bind Path=ViewModel.ButtonState, Mode=OneWay}"
+                    HorizontalAlignment="Left"
+                    Margin="20"
+                    Content="Vibrate" 
+                    Grid.Row="2">
+                </Button>
+
+                <Button Command="{Binding BatteryInfoCommand}"
+                    IsEnabled="{x:Bind Path=ViewModel.ButtonState, Mode=OneWay}"
+                    HorizontalAlignment="Left"
+                    Margin="20"
+                    Content="Battery Info" 
+                    Grid.Row="2">
+                </Button>
+            </StackPanel>
+        </Grid>
+   
+
+    </Grid>
+</Page>

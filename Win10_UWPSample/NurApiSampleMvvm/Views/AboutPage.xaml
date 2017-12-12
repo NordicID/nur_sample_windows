@@ -1,0 +1,24 @@
+﻿<Page x:Class="NurApiSampleMvvm.AboutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="Transparent">
+        <TextBlock Text="About - place holder"
+                   Foreground="{StaticResource PageForegroundBrush}"
+                   Margin="24"
+                   FontSize="24"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left" />
+        <Path Data="{StaticResource InfoIcon}"
+              Fill="{StaticResource PageForegroundBrush}"
+              VerticalAlignment="Top"
+              HorizontalAlignment="Right"
+              Height="96"
+              Width="96"
+              Margin="24"
+              Stretch="Uniform" />
+    </Grid>
+</Page>

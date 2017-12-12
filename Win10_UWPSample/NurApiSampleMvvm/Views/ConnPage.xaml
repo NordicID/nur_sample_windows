@@ -1,0 +1,89 @@
+﻿<Page x:Class="NurApiSampleMvvm.ConnPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:vm="using:Mvvm"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:NurApiDotNetUWP="using:NurApiDotNet.UWP"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="ResultsListViewTemplate" x:DataType="NurApiDotNetUWP:NurDeviceWatcherInfo">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="100"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="1" Margin="3">
+                    <TextBlock TextWrapping="WrapWholeWords">
+                        <Run Text="{x:Bind TransportType, Mode=OneWay}"/> <Run Text="{x:Bind Name, Mode=OneWay}" FontWeight="Bold"/> (<Run Text="{x:Bind Address, Mode=OneWay}"/>) <Run Text="{x:Bind Info, Mode=OneWay}"/>
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="Transparent">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Connection"
+                   Foreground="{StaticResource PageForegroundBrush}"
+                   Margin="20"
+                   FontSize="24"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left" Grid.Row="0" />
+
+            <TextBlock Text="Select device to connect:"
+                   Foreground="{StaticResource PageForegroundBrush}"
+                   Margin="20,0,0,0"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left" Grid.Row="1" />
+
+            <ListView VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="250" Margin="20"
+                  ItemTemplate="{StaticResource ResultsListViewTemplate}"
+                  ItemsSource="{x:Bind ViewModel.KnownDevices, Mode=OneWay}"
+                  BorderThickness="1" Grid.Row="2"
+                  SelectedItem="{Binding Path=SelectedDev, Mode=TwoWay}"
+                  DoubleTapped="ListView_DoubleTapped"
+                      >
+                <ListView.BorderBrush>
+                    <SolidColorBrush Color="{ThemeResource SystemListMediumColor}"/>
+                </ListView.BorderBrush>
+            </ListView>
+
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Device Spec"
+                   Foreground="{StaticResource PageForegroundBrush}"
+                   Margin="20,0,0,0"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"/>
+                <TextBox Grid.Column="1" HorizontalAlignment="Stretch"
+                    IsEnabled="{x:Bind Path=ViewModel.ConnButtonState, Mode=OneWay}"
+                    TextChanged="TextBox_TextChanged"
+                    TextWrapping="Wrap" Text="{x:Bind Path=ViewModel.DeviceSpecStr, Mode=OneWay}"
+                    Margin="5,0,20,0"/>
+            </Grid>
+
+            <Button Command="{Binding ConnectCommand}"
+                    IsEnabled="{x:Bind Path=ViewModel.ConnButtonState, Mode=OneWay}"
+                HorizontalAlignment="Left"
+                Margin="20"
+                Content="{x:Bind Path=ViewModel.ConnButtonText, Mode=OneWay}" 
+                Grid.Row="4">
+            </Button>
+        </Grid>
+
+
+    </Grid>
+</Page>

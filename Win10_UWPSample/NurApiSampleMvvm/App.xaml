@@ -1,0 +1,20 @@
+﻿<Application
+    x:Class="NurApiSampleMvvm.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:NurApiSampleMvvm"
+    RequestedTheme="Light">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Theme resources -->
+                <ResourceDictionary Source="Services/Theming/Theme.xaml" />
+                <!-- Icons -->
+                <ResourceDictionary Source="Services/Icons/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
+</Application>
+
