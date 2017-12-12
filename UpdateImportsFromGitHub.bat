@@ -5,7 +5,8 @@
 @SET REMOTE_BASE=https://github.com/NordicID/%SDK_REPO%/raw/master
 @SET LOCAL_IMPORTDIR=import
 
-%GETTER% -q %REMOTE_BASE%/dotnet/ReleaseNotes.txt -O %LOCAL_IMPORTDIR%\ReleaseNotes.txt
+%GETTER% -q %REMOTE_BASE%/dotnet/ReleaseNotes.txt -O %LOCAL_IMPORTDIR%\dotnet\ReleaseNotes.txt
+%GETTER% -q %REMOTE_BASE%/native/ReleaseNotes.txt -O %LOCAL_IMPORTDIR%\win_native\ReleaseNotes.txt
 
 @REM ********************************************
 @REM Windows CE / WEC .NET API
@@ -48,6 +49,10 @@
 @copy %LOCAL_TARGET_BASE%\x86\NurApiDotNet.XML %LOCAL_TARGET_BASE%\x64\ /y
 @copy %LOCAL_TARGET_BASE%\x86\NurApiDotNet.XML %LOCAL_TARGET_BASE%\x86_ansi\ /y
 
+@REM UWP dll & xml
+%GETTER% -q %REMOTE_BASE%/dotnet/UWP_Win10/AnyCPU/NurApiDotNetUWP.dll -O %LOCAL_TARGET_BASE%\UWP_Win10\AnyCPU\NurApiDotNetUWP.dll
+%GETTER% -q %REMOTE_BASE%/dotnet/UWP_Win10/AnyCPU/NurApiDotNetUWP.XML -O %LOCAL_TARGET_BASE%\UWP_Win10\AnyCPU\NurApiDotNetUWP.XML
+
 @REM *************
 @REM Common native
 @REM *************
@@ -55,6 +60,7 @@
 @SET REMOTE_DIR=%REMOTE_BASE%/native/include
 
 %GETTER% -q %REMOTE_DIR%/NurAPI.h -O %LOCAL_TARGET_BASE%\NurAPI.h
+%GETTER% -q %REMOTE_DIR%/NurAccessoryExtension.h -O %LOCAL_TARGET_BASE%\NurAccessoryExtension.h
 %GETTER% -q %REMOTE_DIR%/NurAPIConstants.h -O %LOCAL_TARGET_BASE%\NurAPIConstants.h
 %GETTER% -q %REMOTE_DIR%/NurAPIErrors.h -O %LOCAL_TARGET_BASE%\NurAPIErrors.h
 %GETTER% -q %REMOTE_DIR%/NurAPIExport.h -O %LOCAL_TARGET_BASE%\NurAPIExport.h
@@ -81,6 +87,18 @@
 @REM WCE/WEC
 %GETTER% -q %REMOTE_DIR%/arm/NURAPI.dll -O %LOCAL_TARGET_BASE%\windowsce\NURAPI.dll
 %GETTER% -q %REMOTE_DIR%/arm/NURAPI.lib -O %LOCAL_TARGET_BASE%\windowsce\NURAPI.lib
+
+@REM UWP ARM
+%GETTER% -q %REMOTE_DIR%/UWP_Win10/ARM/NURAPI.dll -O %LOCAL_TARGET_BASE%\UWP_Win10\ARM\NURAPI.dll
+%GETTER% -q %REMOTE_DIR%/UWP_Win10/ARM/NURAPI.lib -O %LOCAL_TARGET_BASE%\UWP_Win10\ARM\NURAPI.lib
+
+@REM UWP x86
+%GETTER% -q %REMOTE_DIR%/UWP_Win10/x86/NURAPI.dll -O %LOCAL_TARGET_BASE%\UWP_Win10\x86\NURAPI.dll
+%GETTER% -q %REMOTE_DIR%/UWP_Win10/x86/NURAPI.lib -O %LOCAL_TARGET_BASE%\UWP_Win10\x86\NURAPI.lib
+
+@REM UWP x64
+%GETTER% -q %REMOTE_DIR%/UWP_Win10/x64/NURAPI.dll -O %LOCAL_TARGET_BASE%\UWP_Win10\x64\NURAPI.dll
+%GETTER% -q %REMOTE_DIR%/UWP_Win10/x64/NURAPI.lib -O %LOCAL_TARGET_BASE%\UWP_Win10\x64\NURAPI.lib
 
 
 @SET GETTER=
