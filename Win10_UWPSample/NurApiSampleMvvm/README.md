@@ -13,7 +13,9 @@ This sample MVVM part is based on Diederik Krols great article [HERE](https://xa
 - At least Windows 10 SDK Build 15063
 
 ### NurApi for UWP
-Basically same as for other C# targets, except transport layers are different.
+NurApi UWP is basically same as other C# targets, except transport layers are different.
+
+Documentation: [NurApi UWP Documentation.chm](https://github.com/NordicID/nur_sdk/blob/master/dotnet/docs/NurApi%20UWP%20Documentation.chm)
 
 ###### UWP async programming
 Normally in UWP apps in order to keep your app responsive, async APIs are used.
