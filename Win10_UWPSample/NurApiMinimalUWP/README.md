@@ -43,13 +43,5 @@ await Task.Run(async () => {
 ```
 
 ### Sample content
-- Connection handling to multiple readers at same time.
+- Connection handling to single reader.
 - Basic tag inventory functionality.
-- Basic accessory device (EXA series) operations.
-
-### Code location
-- Finding devices: see `NurDeviceWatcher` usage in [ConnPageViewModel.cs](ViewModels/ConnPageViewModel.cs)
-- Connecting devices: see `ConnectCommand` function in [ConnPageViewModel.cs](ViewModels/ConnPageViewModel.cs)
-- Tag inventory: see file [InventoryPageViewModel.cs](ViewModels/InventoryPageViewModel.cs)
-- Accessory device (EXA series) usage: see file [AccessoryDevPageViewModel.cs](ViewModels/AccessoryDevPageViewModel.cs)
-- XAML Views: see [Views](Views) folder
