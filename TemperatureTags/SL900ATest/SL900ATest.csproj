@@ -91,7 +91,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="NURAPI.dll">
+    <Content Include="..\..\import\win_native\win32\NURAPI.dll">
+      <Link>NURAPI.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
