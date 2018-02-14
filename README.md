@@ -1,6 +1,8 @@
-# nur_sample_windows
-NUR based reader samples fow Windows.
+## NUR based reader samples for Windows
 
-To update the imports part from Git, use UpdateImportsFromGitHub.bat.
+To update the imports part from Git, use UpdateImportsFromGitHub.bat
 
-Running the batch file updates the import directory's libraries that the samples use. However, you need to refresh the native (NURAPI.dll) imports in the projects as well as Visual Studio may not update them by itself.
+Running the batch file updates the import directory's libraries that the samples use. 
+
+### License
+All files in this repository is provided under terms specified in [LICENSE](LICENSE) file.
