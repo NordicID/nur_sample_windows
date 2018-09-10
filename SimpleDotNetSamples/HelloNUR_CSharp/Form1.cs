@@ -25,32 +25,39 @@ namespace HelloNUR_CSharp
         NurApi hNur;
 
         public Form1()
-        {            
+        {
             InitializeComponent();
 
-             hNur = new NurApi();//Nur Api handle
-
+            hNur = new NurApi(this);//Nur Api handle
+            hNur.ConnectedEvent += new EventHandler<NurApi.NurEventArgs>(hNur_ConnectedEvent);
+            hNur.DisconnectedEvent += new EventHandler<NurApi.NurEventArgs>(hNur_DisconnectedEvent);
             //When NUR module connected via USB, this function finds it and connects automagically...
             hNur.SetUsbAutoConnect(true);
-        
-            NurApi.ReaderInfo readerInfo;
-        
+        }
+
+        void hNur_ConnectedEvent(object sender, NurApi.NurEventArgs e)
+        {
             try
             {   //GetReaderInfo from module
-                readerInfo = hNur.GetReaderInfo();
+                NurApi.ReaderInfo readerInfo = hNur.GetReaderInfo();
                 //Show results in Listbox
                 listBox1.Items.Add("Name\t" + readerInfo.name);
                 listBox1.Items.Add("Version\t" + readerInfo.GetVersionString());
                 listBox1.Items.Add("HW Ver\t" + readerInfo.hwVersion);
                 listBox1.Items.Add("FCC\t  " + readerInfo.fccId);
                 listBox1.Items.Add("Serial\t" + readerInfo.serial);
-                listBox1.Items.Add("SW Ver\t"  + readerInfo.swVerMajor + "." + readerInfo.swVerMinor);
+                listBox1.Items.Add("SW Ver\t" + readerInfo.swVerMajor + "." + readerInfo.swVerMinor);
             }
             catch (Exception ex) //Handle error by show error message in Listbox
             {
                 listBox1.Items.Add("Error: GetReaderInfo:" + ex.Message);
-            }        
-        }       
+            }
+        }
 
+        void hNur_DisconnectedEvent(object sender, NurApi.NurEventArgs e)
+        {
+            listBox1.Items.Clear();
+            listBox1.Items.Add("Device disconnected");
+        }
     }
 }
