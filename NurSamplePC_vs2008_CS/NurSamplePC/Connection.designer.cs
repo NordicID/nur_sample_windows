@@ -31,12 +31,12 @@
             this.connectionTLP = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.conStatusDesc = new System.Windows.Forms.Label();
-            this.tcpipPort = new System.Windows.Forms.NumericUpDown();
+            this.socketPortNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.serialCombo = new System.Windows.Forms.ComboBox();
             this.usbCombo = new System.Windows.Forms.ComboBox();
             this.useTcpipPort = new System.Windows.Forms.Label();
             this.useTcpipHost = new System.Windows.Forms.Label();
-            this.useTcpipRadioBox = new System.Windows.Forms.RadioButton();
+            this.useSocketRadioBox = new System.Windows.Forms.RadioButton();
             this.useSerialDevice = new System.Windows.Forms.Label();
             this.useSerialRadioBox = new System.Windows.Forms.RadioButton();
             this.useUsbRadioBox = new System.Windows.Forms.RadioButton();
@@ -45,11 +45,13 @@
             this.conTitle = new System.Windows.Forms.Label();
             this.connectBtn = new System.Windows.Forms.Button();
             this.conStatus = new System.Windows.Forms.Label();
-            this.tcpipAddr = new System.Windows.Forms.TextBox();
+            this.socketAddressTextBox = new System.Windows.Forms.TextBox();
             this.useUsbAutoRadioBox = new System.Windows.Forms.RadioButton();
             this.useLatestRadioBox = new System.Windows.Forms.RadioButton();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.connectionTLP.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tcpipPort)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.socketPortNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // connectionTLP
@@ -63,12 +65,12 @@
             this.connectionTLP.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 171F));
             this.connectionTLP.Controls.Add(this.label1, 2, 1);
             this.connectionTLP.Controls.Add(this.conStatusDesc, 0, 8);
-            this.connectionTLP.Controls.Add(this.tcpipPort, 2, 6);
+            this.connectionTLP.Controls.Add(this.socketPortNumericUpDown, 2, 6);
             this.connectionTLP.Controls.Add(this.serialCombo, 2, 4);
             this.connectionTLP.Controls.Add(this.usbCombo, 2, 3);
             this.connectionTLP.Controls.Add(this.useTcpipPort, 1, 6);
             this.connectionTLP.Controls.Add(this.useTcpipHost, 1, 5);
-            this.connectionTLP.Controls.Add(this.useTcpipRadioBox, 0, 5);
+            this.connectionTLP.Controls.Add(this.useSocketRadioBox, 0, 5);
             this.connectionTLP.Controls.Add(this.useSerialDevice, 1, 4);
             this.connectionTLP.Controls.Add(this.useSerialRadioBox, 0, 4);
             this.connectionTLP.Controls.Add(this.useUsbRadioBox, 0, 3);
@@ -77,9 +79,11 @@
             this.connectionTLP.Controls.Add(this.conTitle, 0, 0);
             this.connectionTLP.Controls.Add(this.connectBtn, 2, 9);
             this.connectionTLP.Controls.Add(this.conStatus, 0, 7);
-            this.connectionTLP.Controls.Add(this.tcpipAddr, 2, 5);
+            this.connectionTLP.Controls.Add(this.socketAddressTextBox, 2, 5);
             this.connectionTLP.Controls.Add(this.useUsbAutoRadioBox, 0, 2);
             this.connectionTLP.Controls.Add(this.useLatestRadioBox, 0, 1);
+            this.connectionTLP.Controls.Add(this.label2, 3, 5);
+            this.connectionTLP.Controls.Add(this.label3, 3, 6);
             this.connectionTLP.Dock = System.Windows.Forms.DockStyle.Fill;
             this.connectionTLP.Location = new System.Drawing.Point(0, 0);
             this.connectionTLP.Margin = new System.Windows.Forms.Padding(0);
@@ -127,18 +131,18 @@
             this.conStatusDesc.Text = "conStatusDesc";
             this.conStatusDesc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tcpipPort
+            // socketPortNumericUpDown
             // 
-            this.tcpipPort.Location = new System.Drawing.Point(132, 187);
-            this.tcpipPort.Maximum = new decimal(new int[] {
+            this.socketPortNumericUpDown.Location = new System.Drawing.Point(132, 187);
+            this.socketPortNumericUpDown.Maximum = new decimal(new int[] {
             60000,
             0,
             0,
             0});
-            this.tcpipPort.Name = "tcpipPort";
-            this.tcpipPort.Size = new System.Drawing.Size(119, 20);
-            this.tcpipPort.TabIndex = 8;
-            this.tcpipPort.Value = new decimal(new int[] {
+            this.socketPortNumericUpDown.Name = "socketPortNumericUpDown";
+            this.socketPortNumericUpDown.Size = new System.Drawing.Size(119, 20);
+            this.socketPortNumericUpDown.TabIndex = 8;
+            this.socketPortNumericUpDown.Value = new decimal(new int[] {
             10000,
             0,
             0,
@@ -191,18 +195,18 @@
             this.useTcpipHost.Text = "Host:";
             this.useTcpipHost.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // useTcpipRadioBox
+            // useSocketRadioBox
             // 
-            this.useTcpipRadioBox.AutoSize = true;
-            this.useTcpipRadioBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.useTcpipRadioBox.Location = new System.Drawing.Point(13, 161);
-            this.useTcpipRadioBox.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
-            this.useTcpipRadioBox.Name = "useTcpipRadioBox";
-            this.useTcpipRadioBox.Size = new System.Drawing.Size(61, 20);
-            this.useTcpipRadioBox.TabIndex = 6;
-            this.useTcpipRadioBox.Text = "TCP/IP";
-            this.useTcpipRadioBox.UseVisualStyleBackColor = true;
-            this.useTcpipRadioBox.CheckedChanged += new System.EventHandler(this.updateControls_CheckedChanged);
+            this.useSocketRadioBox.AutoSize = true;
+            this.useSocketRadioBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.useSocketRadioBox.Location = new System.Drawing.Point(13, 161);
+            this.useSocketRadioBox.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
+            this.useSocketRadioBox.Name = "useSocketRadioBox";
+            this.useSocketRadioBox.Size = new System.Drawing.Size(61, 20);
+            this.useSocketRadioBox.TabIndex = 6;
+            this.useSocketRadioBox.Text = "TCP/IP";
+            this.useSocketRadioBox.UseVisualStyleBackColor = true;
+            this.useSocketRadioBox.CheckedChanged += new System.EventHandler(this.updateControls_CheckedChanged);
             // 
             // useSerialDevice
             // 
@@ -307,14 +311,14 @@
             this.conStatus.Text = "Connection status";
             this.conStatus.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
-            // tcpipAddr
+            // socketAddressTextBox
             // 
-            this.tcpipAddr.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcpipAddr.Location = new System.Drawing.Point(132, 161);
-            this.tcpipAddr.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
-            this.tcpipAddr.Name = "tcpipAddr";
-            this.tcpipAddr.Size = new System.Drawing.Size(119, 20);
-            this.tcpipAddr.TabIndex = 7;
+            this.socketAddressTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.socketAddressTextBox.Location = new System.Drawing.Point(132, 161);
+            this.socketAddressTextBox.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
+            this.socketAddressTextBox.Name = "socketAddressTextBox";
+            this.socketAddressTextBox.Size = new System.Drawing.Size(119, 20);
+            this.socketAddressTextBox.TabIndex = 7;
             // 
             // useUsbAutoRadioBox
             // 
@@ -344,6 +348,28 @@
             this.useLatestRadioBox.UseVisualStyleBackColor = true;
             this.useLatestRadioBox.CheckedChanged += new System.EventHandler(this.updateControls_CheckedChanged);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Location = new System.Drawing.Point(257, 152);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(165, 32);
+            this.label2.TabIndex = 27;
+            this.label2.Text = "(IP address or name)";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label3.Location = new System.Drawing.Point(257, 184);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(165, 26);
+            this.label3.TabIndex = 28;
+            this.label3.Text = "(default: 4333 )";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // Connection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -355,7 +381,7 @@
             this.Load += new System.EventHandler(this.Connection_Load);
             this.connectionTLP.ResumeLayout(false);
             this.connectionTLP.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tcpipPort)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.socketPortNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -365,12 +391,12 @@
 
         private System.Windows.Forms.TableLayoutPanel connectionTLP;
         private System.Windows.Forms.Label conStatusDesc;
-        private System.Windows.Forms.NumericUpDown tcpipPort;
+        private System.Windows.Forms.NumericUpDown socketPortNumericUpDown;
         private System.Windows.Forms.ComboBox serialCombo;
         private System.Windows.Forms.ComboBox usbCombo;
         private System.Windows.Forms.Label useTcpipPort;
         private System.Windows.Forms.Label useTcpipHost;
-        private System.Windows.Forms.RadioButton useTcpipRadioBox;
+        private System.Windows.Forms.RadioButton useSocketRadioBox;
         private System.Windows.Forms.Label useSerialDevice;
         private System.Windows.Forms.RadioButton useSerialRadioBox;
         private System.Windows.Forms.RadioButton useUsbRadioBox;
@@ -379,10 +405,12 @@
         private System.Windows.Forms.Label conTitle;
         private System.Windows.Forms.Button connectBtn;
         private System.Windows.Forms.Label conStatus;
-        private System.Windows.Forms.TextBox tcpipAddr;
+        private System.Windows.Forms.TextBox socketAddressTextBox;
         private System.Windows.Forms.RadioButton useUsbAutoRadioBox;
         private System.Windows.Forms.RadioButton useLatestRadioBox;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
 
     }
 }

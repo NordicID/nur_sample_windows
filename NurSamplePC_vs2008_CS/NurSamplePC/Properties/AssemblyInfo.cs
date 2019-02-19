@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Nordic ID")]
 [assembly: AssemblyProduct("NurSamplePC")]
-[assembly: AssemblyCopyright("Copyright © Nordic ID 2011 - 2015")]
+[assembly: AssemblyCopyright("Copyright © Nordic ID 2011 - 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.5.6.23")]
-[assembly: AssemblyFileVersion("1.5.6.23")]
+[assembly: AssemblyVersion("1.9.2.19")]
+[assembly: AssemblyFileVersion("1.9.2.19")]

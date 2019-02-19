@@ -5,5 +5,23 @@
     <Setting Name="logLevel" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="connectionSocketAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">sampos2n174290035</Value>
+    </Setting>
+    <Setting Name="connectionSocketPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">4333</Value>
+    </Setting>
+    <Setting Name="connectionUsb" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="connectionUsbAuto" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="connectionSerial" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="connectionSocket" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

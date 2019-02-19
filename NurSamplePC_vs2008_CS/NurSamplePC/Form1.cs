@@ -108,12 +108,14 @@ namespace NurSample
         private void hNur_ConnectedEvent(object sender, NurApi.NurEventArgs e)
         {
             NurApi hNur = sender as NurApi;
-            this.Text = string.Format("{0} App:{1} Net:{2} Dll:{3} Fw:{4}",
+            NurApi.ReaderInfo readerInfo = hNur.GetReaderInfo();
+            this.Text = string.Format("{0} App:{1} Net:{2} Dll:{3} Dev:{4} Fw:{5}",
                 System.Reflection.Assembly.GetEntryAssembly().GetName().Name,
                 System.Reflection.Assembly.GetEntryAssembly().GetName().Version,
                 NurUtils.NurApiDotNetVersion,
                 hNur.GetFileVersion(),
-                hNur.GetReaderInfo().GetVersionString());
+                readerInfo.name,
+                readerInfo.GetVersionString());
         }
     }
 }

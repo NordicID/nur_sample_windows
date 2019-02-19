@@ -42,10 +42,15 @@ namespace NurSample
 
         private void Connection_Load(object sender, EventArgs e)
         {
+            socketAddressTextBox.Text = Properties.Settings.Default.connectionSocketAddress;
+            socketPortNumericUpDown.Value = Properties.Settings.Default.connectionSocketPort;
             usbCombo_Click(this, EventArgs.Empty);
             serialCombo_Click(this, EventArgs.Empty);
-            //useLatestRadioBox.Checked = true;
-            useUsbAutoRadioBox.Checked = true;
+            // Update RadioBoxes
+            useUsbRadioBox.Checked = Properties.Settings.Default.connectionUsb;
+            useUsbAutoRadioBox.Checked = Properties.Settings.Default.connectionUsbAuto;
+            useSerialRadioBox.Checked = Properties.Settings.Default.connectionSerial;
+            useSocketRadioBox.Checked = Properties.Settings.Default.connectionSocket;
         }
 
         /// <summary>
@@ -84,9 +89,9 @@ namespace NurSample
         /// <param name="e">The <see cref="NurApi.NurEventArgs" /> instance containing the event data.</param>
         private void hNur_DisconnectedEvent(object sender, NurApi.NurEventArgs e)
         {
-                NurApi hNur = sender as NurApi;
-                conStatusDesc.Text = "Disconnected";
-                UpdateButtons();
+            NurApi hNur = sender as NurApi;
+            conStatusDesc.Text = "Disconnected";
+            UpdateButtons();
         }
 
         /// <summary>
@@ -96,19 +101,21 @@ namespace NurSample
         /// <param name="e">The <see cref="NurApi.NurEventArgs" /> instance containing the event data.</param>
         private void hNur_ConnectedEvent(object sender, NurApi.NurEventArgs e)
         {
-                NurApi hNur = sender as NurApi;
-                conStatusDesc.Text = "Connected";
-                UpdateButtons();
-                try
-                {
-                    NurApi.EthConfig ethConfig = hNur.GetEthConfig();
-                    tcpipAddr.Text = IpToString(ethConfig.ip);
-                    tcpipPort.Value = ethConfig.serverPort;
-                }
-                catch (NurApiException)
-                {
-                    // Ignore this error
-                }
+            NurApi hNur = sender as NurApi;
+            conStatusDesc.Text = "Connected";
+            UpdateButtons();
+            // Update default settings
+            Properties.Settings.Default.connectionUsb = useUsbRadioBox.Checked;
+            Properties.Settings.Default.connectionUsbAuto = useUsbAutoRadioBox.Checked;
+            Properties.Settings.Default.connectionSerial = useSerialRadioBox.Checked;
+            Properties.Settings.Default.connectionSocket = useSocketRadioBox.Checked;
+            if (useSocketRadioBox.Checked)
+            {
+                Properties.Settings.Default.connectionSocketAddress = socketAddressTextBox.Text;
+                Properties.Settings.Default.connectionSocketPort = (int)socketPortNumericUpDown.Value;
+            }
+            // Save default settings
+            Properties.Settings.Default.Save();
         }
 
         private void updateControls_CheckedChanged(object sender, EventArgs e)
@@ -118,8 +125,8 @@ namespace NurSample
 
             usbCombo.Enabled = useUsbRadioBox.Checked;
             serialCombo.Enabled = useSerialRadioBox.Checked;
-            tcpipAddr.Enabled = useTcpipRadioBox.Checked;
-            tcpipPort.Enabled = useTcpipRadioBox.Checked;
+            socketAddressTextBox.Enabled = useSocketRadioBox.Checked;
+            socketPortNumericUpDown.Enabled = useSocketRadioBox.Checked;
 
             if (hNur != null && useUsbAutoRadioBox == sender)
             {
@@ -196,9 +203,9 @@ namespace NurSample
                         connectionComboItem comboItem = serialCombo.SelectedItem as connectionComboItem;
                         hNur.ConnectSerialPort(comboItem.Port);
                     }
-                    else if (useTcpipRadioBox.Checked)
+                    else if (useSocketRadioBox.Checked)
                     {
-                        hNur.ConnectSocket(tcpipAddr.Text, (int)tcpipPort.Value);
+                        hNur.ConnectSocket(socketAddressTextBox.Text, (int)socketPortNumericUpDown.Value);
                     }
                 }
             }
@@ -206,14 +213,6 @@ namespace NurSample
             {
                 MessageBox.Show(ex.ToString(), Program.appName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private static string IpToString(byte[] ip)
-        {
-            if (ip == null)
-                return System.Net.IPAddress.None.ToString();
-            System.Net.IPAddress ipAddress = new System.Net.IPAddress(ip);
-            return ipAddress.ToString();
         }
 
         private void UpdateButtons()
