@@ -51,7 +51,7 @@ namespace PeriodicInventory_CSharp
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(12, 42);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(356, 355);
+            this.listBox1.Size = new System.Drawing.Size(600, 381);
             this.listBox1.TabIndex = 1;
             // 
             // button2
@@ -68,12 +68,13 @@ namespace PeriodicInventory_CSharp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(380, 409);
+            this.ClientSize = new System.Drawing.Size(624, 441);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "InventoryStream sample";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 
         }
