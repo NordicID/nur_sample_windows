@@ -53,7 +53,7 @@ namespace EM4325Test
 			BAPDisBtn.Enabled = en;
 			TestTagBtn.Enabled = en;
 			ResetToABtn.Enabled = en;
-			ReadSetupBtn.Enabled = en;			
+			ReadSetupBtn.Enabled = en;
 			ReadCfgBtn.Enabled = en;
 			MakeSimpleBtn.Enabled = en;
 			CustStartBtn.Enabled = en;
@@ -70,14 +70,14 @@ namespace EM4325Test
 		void OnReaderConnect(object sender, NurApi.NurEventArgs e)
 		{
 			EnableCtls(true);
-			TryUpdateInformation();			
+			TryUpdateInformation();
 			TryUpdateSetup(true);
 			PopulateTxLevel(TxLevelSel, mSetup.txLevel);
 			UpdateLogSettings();
 			AddLog("Connected.");
 
 			if (AutoScanChk.Checked)
-			{				
+			{
 				AddLog("Auto scan...");
 				DoGetTags();
 			}
@@ -168,7 +168,7 @@ namespace EM4325Test
 			{
 				lo = center - step;
 				hi = center + step;
-				s = i  + ": " + lo + "..." + hi;
+				s = i + ": " + lo + "..." + hi;
 				cmb.Items.Add(s);
 			}
 		}
@@ -301,7 +301,7 @@ namespace EM4325Test
 		{
 			DoGetUID();
 		}
-		
+
 		private void GetTagsBtn_Click(object sender, EventArgs e)
 		{
 			DoGetTags();
@@ -446,7 +446,7 @@ namespace EM4325Test
 			}
 		}
 
-		private void LogBytes(byte []b)
+		private void LogBytes(byte[] b)
 		{
 			int i, j;
 			string s = "";
@@ -488,7 +488,7 @@ namespace EM4325Test
 					AddLog(s);
 					s = "";
 				}
-				else 
+				else
 					j++;
 			}
 			if (j != 0)
@@ -504,7 +504,7 @@ namespace EM4325Test
 			for (i = 0; i < dw.Length; i++)
 			{
 				s += (dw[i].ToString("X8") + " ");
-				if (j==1)
+				if (j == 1)
 					s += "  ";
 				if (j == 3)
 				{
@@ -528,7 +528,7 @@ namespace EM4325Test
 				{
 					case 0:
 						if (app)
-							LogBytes(RFIDHelpers.RFIDHelpers.ReadBytes(hNur, CurrentTag.mEPC, NurApi.BANK_USER, 0, EM4325Tag.USERMEM_BYTE_SIZE/2));
+							LogBytes(RFIDHelpers.RFIDHelpers.ReadBytes(hNur, CurrentTag.mEPC, NurApi.BANK_USER, 0, EM4325Tag.USERMEM_BYTE_SIZE / 2));
 						else
 							LogBytes(CurrentTag.ReadUserBytes());
 						break;
@@ -662,7 +662,7 @@ namespace EM4325Test
 		}
 
 		private void ShowUID(EM4325Tag.UIDResponse u)
-		{			
+		{
 			AddLog("UID.allocClass = 0x" + u.allocClass.ToString("X2"));
 
 			AddLog("Serial: " + u.serial + " (0x" + u.serial.ToString("X12") + ".");
@@ -686,7 +686,7 @@ namespace EM4325Test
 				AddLog("XTID = " + u.xtid);
 			else
 				AddLog("XTID not available.");
-			
+
 			if (u.xtidHdr != -1)
 				AddLog("XTID header = " + u.xtidHdr + " (" + HEX4(u.xtidHdr) + ").");
 			else
@@ -711,7 +711,7 @@ namespace EM4325Test
 		}
 
 		private void ShowSensorData(EM4325Tag.SensorData sd)
-		{			
+		{
 			AddLog("Sensor data = " + sd.data + ", 0x" + sd.data.ToString("X8"));
 			AddLog("Bytes = " + NurApi.BinToHexString(sd.raw));
 
@@ -737,8 +737,8 @@ namespace EM4325Test
 			for (i = 0; i < 2; i++)
 			{
 				try { hNur.ResetToTarget(0, true); }
-				catch (NurApiException e) 
-				{ 
+				catch (NurApiException e)
+				{
 					int error = e.error;
 					AddLog("Reset target error: " + error + ".");
 					if (error == NurApiErrors.NUR_ERROR_TRANSPORT || error == NurApiErrors.NUR_ERROR_TR_TIMEOUT)
@@ -762,7 +762,7 @@ namespace EM4325Test
 
 			try
 			{
-				testData = CurrentTag.ReadTag(0, false, NurApi.BANK_USER, EM4325Tag.ADDR_CTLWORD_1, 6);				
+				testData = CurrentTag.ReadTag(0, false, NurApi.BANK_USER, EM4325Tag.ADDR_CTLWORD_1, 6);
 				AddLog("Control word data: " + NurApi.BinToHexString(testData));
 				phase++;
 
@@ -806,10 +806,10 @@ namespace EM4325Test
 		}
 
 
-		private uint []ReadUint32(NurApi hNur, byte[] epc, byte bank, uint start, int n)
+		private uint[] ReadUint32(NurApi hNur, byte[] epc, byte bank, uint start, int n)
 		{
 			byte[] rdData;
-			byte []uiBytes = new byte[4];
+			byte[] uiBytes = new byte[4];
 			int i;
 			List<uint> lst = new List<uint>();
 
@@ -852,7 +852,7 @@ namespace EM4325Test
 
 		private uint ReadUint32(NurApi hNur, byte[] epc, byte bank, uint addr)
 		{
-			byte[] rdData;						
+			byte[] rdData;
 			rdData = hNur.ReadTagByEPC(0, false, epc, bank, addr, 4);
 			System.Array.Reverse(rdData);
 			return BitConverter.ToUInt32(rdData, 0);
@@ -888,7 +888,7 @@ namespace EM4325Test
 			try
 			{
 				hNur.ClearIdBuffer();
-				hNur.ClearTags();				
+				hNur.ClearTags();
 
 				ResetToA();
 				resp = hNur.Inventory(2, 4, 0);
@@ -899,7 +899,7 @@ namespace EM4325Test
 				{
 					t = storage[i];
 					AllTags.Add(new EM4325Tag(t));
-					TagList.Items.Add(AllTags[i].GetEpcString());					
+					TagList.Items.Add(AllTags[i].GetEpcString());
 				}
 
 				if (resp.numTagsFound == 1 && SglAutoSel.Checked)
@@ -951,7 +951,7 @@ namespace EM4325Test
 			try
 			{
 				mReaderInfo = hNur.GetReaderInfo();
-				AddLog("Device: " + mReaderInfo.name);				
+				AddLog("Device: " + mReaderInfo.name);
 				AddLog("FW: " + mReaderInfo.GetVersionString());
 			}
 			catch (NurApiException e)

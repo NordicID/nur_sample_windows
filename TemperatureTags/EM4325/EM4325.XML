@@ -9,16 +9,6 @@
             The class representing a tag using the EM4325 chip.
             </summary>
         </member>
-        <member name="F:EM4325.EM4325Tag.GEN2_READCMD">
-            <summary>
-            Gen2 read command value.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.GEN2_WRITECMD">
-            <summary>
-            Gen2 write command value.
-            </summary>
-        </member>
         <member name="F:EM4325.EM4325Tag.USERMEM_BYTE_SIZE">
             <summary>
             User memory size in bytes.
@@ -249,6 +239,91 @@
             Two bits for the delay time between bytes.
             </summary>
         </member>
+        <member name="F:EM4325.EM4325Tag.GEN2_READCMD">
+            <summary>
+            Gen2 read command value.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.GEN2_WRITECMD">
+            <summary>
+            Gen2 write command value.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.MIN_TEMP_THRESH">
+            <summary>
+            Minimum threshold value for temperature.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.MAX_TEMP_THRESH">
+            <summary>
+            Maximum threshold value for temperature.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.TEMP_STEP_PER_BIT">
+            <summary>
+            Temperature value in C defining the step value per bit.
+            </summary>
+        </member>
+        <member name="M:EM4325.EM4325Tag.BoolToUint(System.Boolean)">
+            <summary>
+            Set 'uint boolean' based on value.
+            </summary>
+            <param name="b">Boolean to evaluate.</param>
+            <returns>1 if b is true, zero otherwise.</returns>
+        </member>
+        <member name="M:EM4325.EM4325Tag.BuildDefault(System.UInt16,System.Boolean,System.Boolean)">
+            <summary>
+            Build default custom excange parameters.
+            </summary>
+            <param name="rxLen">Reception length in bits.</param>
+            <param name="asWrite">If true then the reader's AFE shall behave like the reponse is to a write (longer timeout etc.).</param>
+            <param name="stripHandle">Whether to strip the handle from the response  or not.</param>
+            <returns>Pre-built custom exchange parameters, <see cref="T:NurApiDotNet.NurApi.CustomExchangeParams"/>.</returns>
+        </member>
+        <member name="M:EM4325.EM4325Tag.SetUTC(System.UInt32)">
+            <summary>
+            Write UTC.
+            </summary>
+            <param name="utcValue">UTC value as an unsigned 32-bit integer.</param>
+            <exception cref="T:NurApiDotNet.NurApiException">Exception is thrown upon tag or reader communication error.</exception>		
+        </member>
+        <member name="M:EM4325.EM4325Tag.GetUTC">
+            <summary>
+            Read UTC.
+            </summary>
+            <returns>32-bit unsigned integer representing the UTC value.</returns>
+            <exception cref="T:NurApiDotNet.NurApiException">Exception is thrown upon tag or reader communication error.</exception>		
+        </member>
+        <member name="M:EM4325.EM4325Tag.ResetAlarms">
+            <summary>
+            ResetAlarms commands' implementation.
+            </summary>
+            <returns>Returns true if tag indicated a successful alarm reset, false otherwise.</returns>
+            <exception cref="T:NurApiDotNet.NurApiException">Exception is thrown with module or tag communication error.</exception>
+            <remarks>
+            Does not throw exception when tag replies with an error. 
+            Use the API's logging event to capture more information.
+            </remarks>
+        </member>
+        <member name="M:EM4325.EM4325Tag.InterpretUIDResponse(NurApiDotNet.NurApi,System.Byte[],System.Int32)">
+            <summary>
+            Interpret the UID response data received from the tag.
+            </summary>
+            <param name="hApi">NUR API handle. Used for user log trace/debug.</param>		
+            <param name="src"></param>
+            <param name="contentLen">Actual length of the resposen. Needed if the UID is a part of another reponse.</param>
+            <returns>Interpreted UID response: <see cref="T:EM4325.EM4325Tag.UIDResponse"/>.</returns>
+            <exception cref="T:System.ApplicationException">Throws an exception if the allocation class is not recognized.</exception>
+        </member>
+        <member name="M:EM4325.EM4325Tag.GetUID">
+            <summary>
+            The GetUID command implementation.
+            </summary>
+            <returns>The UID response structure.</returns>
+            <exception cref="T:NurApiDotNet.NurApiException">Exception is thrown with module or tag communication error.</exception>
+            <exception cref="T:System.IndexOutOfRangeException">Exception is thrown if the response array indexing is out of range.</exception>
+            <exception cref="T:System.ApplicationException">Is thrown with an invalid response (length or allocation class).</exception>
+        </member>
         <member name="M:EM4325.EM4325Tag.SetBAP(System.Boolean)">
             <summary>
             Set BAP on/off.
@@ -390,80 +465,23 @@
             <param name="simple">If true then the command is composed as a simple setup.</param>
             <param name="useBlockWrite">If false then a normal word-by-word write is used, otherwise G2 BlockWrite is used.</param>
         </member>
-        <member name="M:EM4325.EM4325Tag.SetUTC(System.UInt32)">
+        <member name="P:EM4325.EM4325Tag.UTC">
             <summary>
-            Write UTC.
-            </summary>
-            <param name="utcValue">UTC value as an unsigned 32-bit integer.</param>
-            <exception cref="T:NurApiDotNet.NurApiException">Exception is thrown upon tag or reader communication error.</exception>		
-        </member>
-        <member name="M:EM4325.EM4325Tag.GetUTC">
-            <summary>
-            Read UTC.
-            </summary>
-            <returns>32-bit unsigned integer representing the UTC value.</returns>
-            <exception cref="T:NurApiDotNet.NurApiException">Exception is thrown upon tag or reader communication error.</exception>		
-        </member>
-        <member name="F:EM4325.EM4325Tag.MIN_TEMP_THRESH">
-            <summary>
-            Minimum threshold value for temperature.
+            Return the UTC as an unsigned 32-bit integer.
             </summary>
         </member>
-        <member name="F:EM4325.EM4325Tag.MAX_TEMP_THRESH">
+        <member name="P:EM4325.EM4325Tag.CanResetAlarms">
             <summary>
-            Maximum threshold value for temperature.
+            Get whether this tag can reset alarms or not.
             </summary>
         </member>
-        <member name="F:EM4325.EM4325Tag.TEMP_STEP_PER_BIT">
+        <member name="P:EM4325.EM4325Tag.UID">
             <summary>
-            Temperature value in C defining the step value per bit.
+            The UID as an attribute.
             </summary>
-        </member>
-        <member name="M:EM4325.EM4325Tag.BoolToUint(System.Boolean)">
-            <summary>
-            Set 'uint boolean' based on value.
-            </summary>
-            <param name="b">Boolean to evaluate.</param>
-            <returns>1 if b is true, zero otherwise.</returns>
-        </member>
-        <member name="M:EM4325.EM4325Tag.BuildDefault(System.UInt16,System.Boolean,System.Boolean)">
-            <summary>
-            Build default custom excange parameters.
-            </summary>
-            <param name="rxLen">Reception length in bits.</param>
-            <param name="asWrite">If true then the reader's AFE shall behave like the reponse is to a write (longer timeout etc.).</param>
-            <param name="stripHandle">Whether to strip the handle from the response  or not.</param>
-            <returns>Pre-built custom exchange parameters, <see cref="T:NurApiDotNet.NurApi.CustomExchangeParams"/>.</returns>
-        </member>
-        <member name="M:EM4325.EM4325Tag.InterpretUIDResponse(NurApiDotNet.NurApi,System.Byte[],System.Int32)">
-            <summary>
-            Interpret the UID response data received from the tag.
-            </summary>
-            <param name="hApi">NUR API handle. Used for user log trace/debug.</param>		
-            <param name="src"></param>
-            <param name="contentLen">Actual length of the resposen. Needed if the UID is a part of another reponse.</param>
-            <returns>Interpreted UID response: <see cref="T:EM4325.EM4325Tag.UIDResponse"/>.</returns>
-            <exception cref="T:System.ApplicationException">Throws an exception if the allocation class is not recognized.</exception>
-        </member>
-        <member name="M:EM4325.EM4325Tag.GetUID">
-            <summary>
-            The GetUID command implementation.
-            </summary>
-            <returns>The UID response structure.</returns>
             <exception cref="T:NurApiDotNet.NurApiException">Exception is thrown with module or tag communication error.</exception>
             <exception cref="T:System.IndexOutOfRangeException">Exception is thrown if the response array indexing is out of range.</exception>
             <exception cref="T:System.ApplicationException">Is thrown with an invalid response (length or allocation class).</exception>
-        </member>
-        <member name="M:EM4325.EM4325Tag.ResetAlarms">
-            <summary>
-            ResetAlarms commands' implementation.
-            </summary>
-            <returns>Returns true if tag indicated a successful alarm reset, false otherwise.</returns>
-            <exception cref="T:NurApiDotNet.NurApiException">Exception is thrown with module or tag communication error.</exception>
-            <remarks>
-            Does not throw exception when tag replies with an error. 
-            Use the API's logging event to capture more information.
-            </remarks>
         </member>
         <member name="P:EM4325.EM4325Tag.BAPCtlEnabled">
             <summary>
@@ -506,22 +524,149 @@
             Attribute used to read the configuration from the tag.
             </summary>
         </member>
-        <member name="P:EM4325.EM4325Tag.UTC">
+        <member name="T:EM4325.EM4325Tag.UIDResponse">
             <summary>
-            Return the UTC as an unsigned 32-bit integer.
+            Response structure for the GetUID command.
             </summary>
         </member>
-        <member name="P:EM4325.EM4325Tag.UID">
+        <member name="F:EM4325.EM4325Tag.UIDResponse.allocClass">
             <summary>
-            The UID as an attribute.
+            The allocation class aas specified by the EM4325 specification (E0, E2, E3).
             </summary>
-            <exception cref="T:NurApiDotNet.NurApiException">Exception is thrown with module or tag communication error.</exception>
-            <exception cref="T:System.IndexOutOfRangeException">Exception is thrown if the response array indexing is out of range.</exception>
-            <exception cref="T:System.ApplicationException">Is thrown with an invalid response (length or allocation class).</exception>
         </member>
-        <member name="P:EM4325.EM4325Tag.CanResetAlarms">
+        <member name="F:EM4325.EM4325Tag.UIDResponse.serial">
             <summary>
-            Get whether this tag can reset alarms or not.
+            Tag's 48-bit serial.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.UIDResponse.xtidHdr">
+            <summary>
+            XTID header value. -1 means 'not present'.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.UIDResponse.modelNum">
+            <summary>
+            Model number. -1 means 'not present'.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.UIDResponse.mdid">
+            <summary>
+            MDID value. -1 means 'not present'.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.UIDResponse.xtid">
+            <summary>
+            XTID: 0 or 1, -1 means 'not present'.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.UIDResponse.umSize">
+            <summary>
+            User memory size. -1 means 'not present'.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.UIDResponse.mid">
+            <summary>
+            Manufacturer ID. -1 means 'not present'.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.UIDResponse.cn">
+            <summary>
+            Customer number. -1 means 'not present'.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.UIDResponse.CRC16">
+            <summary>
+            CRC-16 for legacy TOTAL. -1 means 'not present'.
+            </summary>			
+        </member>
+        <member name="F:EM4325.EM4325Tag.UIDResponse.raw">
+            <summary>
+            Raw bytes of the response.
+            </summary>
+        </member>
+        <member name="T:EM4325.EM4325Tag.SensorData">
+            <summary>
+            Sensor data structure.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.SensorData.hasUid">
+            <summary>
+            If true then the uid field is valid.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.SensorData.uid">
+            <summary>
+            The interpreted UID data from the tag if requested.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.SensorData.raw">
+            <summary>
+            Raw byte data from the tag.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.SensorData.data">
+            <summary>
+            The 32-bit unsigned integer from the tag.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.SensorData.temp">
+            <summary>
+            Interpreted temperature value from 'data'.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.SensorData.battAlarm">
+            <summary>
+            Battery alarm yes/no.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.SensorData.auxAlarm">
+            <summary>
+            Battery AUX alarm.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.SensorData.overTemp">
+            <summary>
+            Over temperature alarm yes/no.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.SensorData.underTemp">
+            <summary>
+            Under temperature alarm yes/no.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.SensorData.p3level">
+            <summary>
+            P3 input level.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.SensorData.enabled">
+            <summary>
+            Monitoring enabled / not.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.SensorData.isSimple">
+            <summary>
+            Simple sensor / not.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.SensorData.abortCount">
+            <summary>
+            Number of aborted measurements.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.SensorData.underCount">
+            <summary>
+            Number of under temperatures.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.SensorData.overCount">
+            <summary>
+            Number of over temperatures.
+            </summary>
+        </member>
+        <member name="F:EM4325.EM4325Tag.SensorData.utc">
+            <summary>
+            The 32-bit unsigned integer prepresenting the UTC value.
             </summary>
         </member>
         <member name="T:EM4325.EM4325Tag.SSDConfig">
@@ -685,151 +830,6 @@
         <member name="F:EM4325.EM4325Tag.ConfigData.raw">
             <summary>
             Raw data bytes from the tag.
-            </summary>
-        </member>
-        <member name="T:EM4325.EM4325Tag.UIDResponse">
-            <summary>
-            Response structure for the GetUID command.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.UIDResponse.allocClass">
-            <summary>
-            The allocation class aas specified by the EM4325 specification (E0, E2, E3).
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.UIDResponse.serial">
-            <summary>
-            Tag's 48-bit serial.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.UIDResponse.xtidHdr">
-            <summary>
-            XTID header value. -1 means 'not present'.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.UIDResponse.modelNum">
-            <summary>
-            Model number. -1 means 'not present'.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.UIDResponse.mdid">
-            <summary>
-            MDID value. -1 means 'not present'.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.UIDResponse.xtid">
-            <summary>
-            XTID: 0 or 1, -1 means 'not present'.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.UIDResponse.umSize">
-            <summary>
-            User memory size. -1 means 'not present'.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.UIDResponse.mid">
-            <summary>
-            Manufacturer ID. -1 means 'not present'.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.UIDResponse.cn">
-            <summary>
-            Customer number. -1 means 'not present'.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.UIDResponse.CRC16">
-            <summary>
-            CRC-16 for legacy TOTAL. -1 means 'not present'.
-            </summary>			
-        </member>
-        <member name="F:EM4325.EM4325Tag.UIDResponse.raw">
-            <summary>
-            Raw bytes of the response.
-            </summary>
-        </member>
-        <member name="T:EM4325.EM4325Tag.SensorData">
-            <summary>
-            Sensor data structure.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.SensorData.hasUid">
-            <summary>
-            If true then the uid field is valid.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.SensorData.uid">
-            <summary>
-            The interpreted UID data from the tag if requested.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.SensorData.raw">
-            <summary>
-            Raw byte data from the tag.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.SensorData.data">
-            <summary>
-            The 32-bit unsigned integer from the tag.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.SensorData.temp">
-            <summary>
-            Interpreted temperature value from 'data'.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.SensorData.battAlarm">
-            <summary>
-            Battery alarm yes/no.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.SensorData.auxAlarm">
-            <summary>
-            Battery AUX alarm.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.SensorData.overTemp">
-            <summary>
-            Over temperature alarm yes/no.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.SensorData.underTemp">
-            <summary>
-            Under temperature alarm yes/no.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.SensorData.p3level">
-            <summary>
-            P3 input level.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.SensorData.enabled">
-            <summary>
-            Monitoring enabled / not.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.SensorData.isSimple">
-            <summary>
-            Simple sensor / not.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.SensorData.abortCount">
-            <summary>
-            Number of aborted measurements.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.SensorData.underCount">
-            <summary>
-            Number of under temperatures.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.SensorData.overCount">
-            <summary>
-            Number of over temperatures.
-            </summary>
-        </member>
-        <member name="F:EM4325.EM4325Tag.SensorData.utc">
-            <summary>
-            The 32-bit unsigned integer prepresenting the UTC value.
             </summary>
         </member>
         <member name="T:EM4325.NamespaceDoc">
