@@ -38,15 +38,13 @@
 			this.GetTagsBtn = new System.Windows.Forms.Button();
 			this.AppTabs = new System.Windows.Forms.TabControl();
 			this.ReaderTab = new System.Windows.Forms.TabPage();
-			this.TargetSel = new System.Windows.Forms.ComboBox();
-			this.SessionSel = new System.Windows.Forms.ComboBox();
-			this.ReadSetupBtn = new System.Windows.Forms.Button();
-			this.AntSel = new System.Windows.Forms.ComboBox();
+			this.InvRoundsSel = new System.Windows.Forms.ComboBox();
+			this.physAntListView = new System.Windows.Forms.ListView();
+			this.columnHeader_Antenna = new System.Windows.Forms.ColumnHeader();
+			this.InvTargetSel = new System.Windows.Forms.ComboBox();
+			this.InvSessionSel = new System.Windows.Forms.ComboBox();
+			this.InvQSel = new System.Windows.Forms.ComboBox();
 			this.ModulationSel = new System.Windows.Forms.ComboBox();
-			this.SglAutoSel = new System.Windows.Forms.CheckBox();
-			this.TagList = new System.Windows.Forms.ListBox();
-			this.StoreChk = new System.Windows.Forms.CheckBox();
-			this.ApplyBtn = new System.Windows.Forms.Button();
 			this.TxLevelSel = new System.Windows.Forms.ComboBox();
 			this.EMTab = new System.Windows.Forms.TabPage();
 			this.AppReadChk = new System.Windows.Forms.CheckBox();
@@ -73,6 +71,10 @@
 			this.AutoScanChk = new System.Windows.Forms.CheckBox();
 			this.TestTagBtn = new System.Windows.Forms.Button();
 			this.TargetResetChk = new System.Windows.Forms.CheckBox();
+			this.TagListView = new System.Windows.Forms.ListView();
+			this.columnHeader_EPC = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader_RSSI = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader_AntID = new System.Windows.Forms.ColumnHeader();
 			this.AppTabs.SuspendLayout();
 			this.ReaderTab.SuspendLayout();
 			this.EMTab.SuspendLayout();
@@ -154,9 +156,9 @@
 			// GetTagsBtn
 			// 
 			this.GetTagsBtn.Enabled = false;
-			this.GetTagsBtn.Location = new System.Drawing.Point(539, 136);
+			this.GetTagsBtn.Location = new System.Drawing.Point(287, 136);
 			this.GetTagsBtn.Name = "GetTagsBtn";
-			this.GetTagsBtn.Size = new System.Drawing.Size(90, 27);
+			this.GetTagsBtn.Size = new System.Drawing.Size(342, 27);
 			this.GetTagsBtn.TabIndex = 8;
 			this.GetTagsBtn.Text = "List tags";
 			this.GetTagsBtn.UseVisualStyleBackColor = true;
@@ -175,15 +177,13 @@
 			// 
 			// ReaderTab
 			// 
-			this.ReaderTab.Controls.Add(this.TargetSel);
-			this.ReaderTab.Controls.Add(this.SessionSel);
-			this.ReaderTab.Controls.Add(this.ReadSetupBtn);
-			this.ReaderTab.Controls.Add(this.AntSel);
+			this.ReaderTab.Controls.Add(this.TagListView);
+			this.ReaderTab.Controls.Add(this.InvRoundsSel);
+			this.ReaderTab.Controls.Add(this.physAntListView);
+			this.ReaderTab.Controls.Add(this.InvTargetSel);
+			this.ReaderTab.Controls.Add(this.InvSessionSel);
+			this.ReaderTab.Controls.Add(this.InvQSel);
 			this.ReaderTab.Controls.Add(this.ModulationSel);
-			this.ReaderTab.Controls.Add(this.SglAutoSel);
-			this.ReaderTab.Controls.Add(this.TagList);
-			this.ReaderTab.Controls.Add(this.StoreChk);
-			this.ReaderTab.Controls.Add(this.ApplyBtn);
 			this.ReaderTab.Controls.Add(this.TxLevelSel);
 			this.ReaderTab.Controls.Add(this.GetTagsBtn);
 			this.ReaderTab.Location = new System.Drawing.Point(4, 22);
@@ -195,57 +195,102 @@
 			this.ReaderTab.UseVisualStyleBackColor = true;
 			this.ReaderTab.Enter += new System.EventHandler(this.ReaderTab_Enter);
 			// 
-			// TargetSel
+			// InvRoundsSel
 			// 
-			this.TargetSel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.TargetSel.FormattingEnabled = true;
-			this.TargetSel.Items.AddRange(new object[] {
+			this.InvRoundsSel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.InvRoundsSel.FormattingEnabled = true;
+			this.InvRoundsSel.Items.AddRange(new object[] {
+            "Rounds 0 - (Auto)",
+            "Rounds 1",
+            "Rounds 2",
+            "Rounds 3",
+            "Rounds 4",
+            "Rounds 5",
+            "Rounds 6",
+            "Rounds 7",
+            "Rounds 8",
+            "Rounds 9",
+            "Rounds 10"});
+			this.InvRoundsSel.Location = new System.Drawing.Point(6, 87);
+			this.InvRoundsSel.Name = "InvRoundsSel";
+			this.InvRoundsSel.Size = new System.Drawing.Size(124, 21);
+			this.InvRoundsSel.TabIndex = 22;
+			this.InvRoundsSel.SelectedIndexChanged += new System.EventHandler(this.ModuleSetup_SelectedIndexChanged);
+			// 
+			// physAntListView
+			// 
+			this.physAntListView.CheckBoxes = true;
+			this.physAntListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_Antenna});
+			this.physAntListView.Location = new System.Drawing.Point(136, 6);
+			this.physAntListView.Name = "physAntListView";
+			this.physAntListView.Size = new System.Drawing.Size(145, 156);
+			this.physAntListView.TabIndex = 21;
+			this.physAntListView.UseCompatibleStateImageBehavior = false;
+			this.physAntListView.View = System.Windows.Forms.View.Details;
+			this.physAntListView.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.physAntListView_ItemChecked);
+			// 
+			// columnHeader_Antenna
+			// 
+			this.columnHeader_Antenna.Text = "Enabled Antennas";
+			this.columnHeader_Antenna.Width = 141;
+			// 
+			// InvTargetSel
+			// 
+			this.InvTargetSel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.InvTargetSel.FormattingEnabled = true;
+			this.InvTargetSel.Items.AddRange(new object[] {
             "Target A",
-            "Target B"});
-			this.TargetSel.Location = new System.Drawing.Point(6, 105);
-			this.TargetSel.Name = "TargetSel";
-			this.TargetSel.Size = new System.Drawing.Size(124, 21);
-			this.TargetSel.TabIndex = 20;
+            "Target B",
+            "Dual Target"});
+			this.InvTargetSel.Location = new System.Drawing.Point(6, 141);
+			this.InvTargetSel.Name = "InvTargetSel";
+			this.InvTargetSel.Size = new System.Drawing.Size(124, 21);
+			this.InvTargetSel.TabIndex = 20;
+			this.InvTargetSel.SelectedIndexChanged += new System.EventHandler(this.ModuleSetup_SelectedIndexChanged);
 			// 
-			// SessionSel
+			// InvSessionSel
 			// 
-			this.SessionSel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.SessionSel.FormattingEnabled = true;
-			this.SessionSel.Items.AddRange(new object[] {
+			this.InvSessionSel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.InvSessionSel.FormattingEnabled = true;
+			this.InvSessionSel.Items.AddRange(new object[] {
             "Session 0",
             "Session 1",
             "Session 2",
             "Session 3"});
-			this.SessionSel.Location = new System.Drawing.Point(6, 78);
-			this.SessionSel.Name = "SessionSel";
-			this.SessionSel.Size = new System.Drawing.Size(124, 21);
-			this.SessionSel.TabIndex = 19;
+			this.InvSessionSel.Location = new System.Drawing.Point(6, 114);
+			this.InvSessionSel.MaxDropDownItems = 100;
+			this.InvSessionSel.Name = "InvSessionSel";
+			this.InvSessionSel.Size = new System.Drawing.Size(124, 21);
+			this.InvSessionSel.TabIndex = 19;
+			this.InvSessionSel.SelectedIndexChanged += new System.EventHandler(this.ModuleSetup_SelectedIndexChanged);
 			// 
-			// ReadSetupBtn
+			// InvQSel
 			// 
-			this.ReadSetupBtn.Enabled = false;
-			this.ReadSetupBtn.Location = new System.Drawing.Point(287, 136);
-			this.ReadSetupBtn.Name = "ReadSetupBtn";
-			this.ReadSetupBtn.Size = new System.Drawing.Size(60, 27);
-			this.ReadSetupBtn.TabIndex = 18;
-			this.ReadSetupBtn.Text = "Read";
-			this.ReadSetupBtn.UseVisualStyleBackColor = true;
-			this.ReadSetupBtn.Click += new System.EventHandler(this.ReadSetupBtn_Click);
-			// 
-			// AntSel
-			// 
-			this.AntSel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.AntSel.FormattingEnabled = true;
-			this.AntSel.Items.AddRange(new object[] {
-            "AUTO",
-            "Antenna 1",
-            "Antenna 2",
-            "Antenna 3",
-            "Antenna 4"});
-			this.AntSel.Location = new System.Drawing.Point(6, 54);
-			this.AntSel.Name = "AntSel";
-			this.AntSel.Size = new System.Drawing.Size(124, 21);
-			this.AntSel.TabIndex = 17;
+			this.InvQSel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.InvQSel.FormattingEnabled = true;
+			this.InvQSel.Items.AddRange(new object[] {
+            "Q 0 - (Auto)",
+            "Q 1",
+            "Q 2",
+            "Q 3",
+            "Q 4",
+            "Q 5",
+            "Q 6",
+            "Q 7",
+            "Q 8",
+            "Q 9",
+            "Q 10",
+            "Q 11",
+            "Q 12",
+            "Q 13",
+            "Q 14",
+            "Q 15"});
+			this.InvQSel.Location = new System.Drawing.Point(6, 60);
+			this.InvQSel.Name = "InvQSel";
+			this.InvQSel.Size = new System.Drawing.Size(124, 21);
+			this.InvQSel.TabIndex = 17;
+			this.InvQSel.SelectedIndexChanged += new System.EventHandler(this.ModuleSetup_SelectedIndexChanged);
 			// 
 			// ModulationSel
 			// 
@@ -254,52 +299,11 @@
 			this.ModulationSel.Items.AddRange(new object[] {
             "ASK modulation",
             "PR-ASK modulation"});
-			this.ModulationSel.Location = new System.Drawing.Point(6, 30);
+			this.ModulationSel.Location = new System.Drawing.Point(6, 33);
 			this.ModulationSel.Name = "ModulationSel";
 			this.ModulationSel.Size = new System.Drawing.Size(124, 21);
 			this.ModulationSel.TabIndex = 15;
-			// 
-			// SglAutoSel
-			// 
-			this.SglAutoSel.AutoSize = true;
-			this.SglAutoSel.Checked = true;
-			this.SglAutoSel.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.SglAutoSel.Location = new System.Drawing.Point(420, 113);
-			this.SglAutoSel.Name = "SglAutoSel";
-			this.SglAutoSel.Size = new System.Drawing.Size(109, 17);
-			this.SglAutoSel.TabIndex = 14;
-			this.SglAutoSel.Text = "Auto select single";
-			this.SglAutoSel.UseVisualStyleBackColor = true;
-			// 
-			// TagList
-			// 
-			this.TagList.FormattingEnabled = true;
-			this.TagList.Location = new System.Drawing.Point(420, 6);
-			this.TagList.Name = "TagList";
-			this.TagList.Size = new System.Drawing.Size(209, 95);
-			this.TagList.TabIndex = 13;
-			this.TagList.Click += new System.EventHandler(this.TagList_Click);
-			// 
-			// StoreChk
-			// 
-			this.StoreChk.AutoSize = true;
-			this.StoreChk.Location = new System.Drawing.Point(287, 113);
-			this.StoreChk.Name = "StoreChk";
-			this.StoreChk.Size = new System.Drawing.Size(117, 17);
-			this.StoreChk.TabIndex = 12;
-			this.StoreChk.Text = "Store when applied";
-			this.StoreChk.UseVisualStyleBackColor = true;
-			// 
-			// ApplyBtn
-			// 
-			this.ApplyBtn.Enabled = false;
-			this.ApplyBtn.Location = new System.Drawing.Point(351, 136);
-			this.ApplyBtn.Name = "ApplyBtn";
-			this.ApplyBtn.Size = new System.Drawing.Size(60, 27);
-			this.ApplyBtn.TabIndex = 11;
-			this.ApplyBtn.Text = "Apply";
-			this.ApplyBtn.UseVisualStyleBackColor = true;
-			this.ApplyBtn.Click += new System.EventHandler(this.ApplyBtn_Click);
+			this.ModulationSel.SelectedIndexChanged += new System.EventHandler(this.ModuleSetup_SelectedIndexChanged);
 			// 
 			// TxLevelSel
 			// 
@@ -309,6 +313,7 @@
 			this.TxLevelSel.Name = "TxLevelSel";
 			this.TxLevelSel.Size = new System.Drawing.Size(124, 21);
 			this.TxLevelSel.TabIndex = 10;
+			this.TxLevelSel.SelectedIndexChanged += new System.EventHandler(this.ModuleSetup_SelectedIndexChanged);
 			// 
 			// EMTab
 			// 
@@ -597,6 +602,33 @@
 			this.TargetResetChk.UseVisualStyleBackColor = true;
 			this.TargetResetChk.Click += new System.EventHandler(this.TargetResetChk_Click);
 			// 
+			// TagListView
+			// 
+			this.TagListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_EPC,
+            this.columnHeader_RSSI,
+            this.columnHeader_AntID});
+			this.TagListView.FullRowSelect = true;
+			this.TagListView.Location = new System.Drawing.Point(287, 6);
+			this.TagListView.Name = "TagListView";
+			this.TagListView.Size = new System.Drawing.Size(342, 124);
+			this.TagListView.TabIndex = 23;
+			this.TagListView.UseCompatibleStateImageBehavior = false;
+			this.TagListView.View = System.Windows.Forms.View.Details;
+			this.TagListView.SelectedIndexChanged += new System.EventHandler(this.TagListView_SelectedIndexChanged);
+			// 
+			// columnHeader_EPC
+			// 
+			this.columnHeader_EPC.Text = "EPC";
+			// 
+			// columnHeader_RSSI
+			// 
+			this.columnHeader_RSSI.Text = "RSSI";
+			// 
+			// columnHeader_AntID
+			// 
+			this.columnHeader_AntID.Text = "Antenna";
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -621,7 +653,6 @@
 			this.Text = "EM4325 Test";
 			this.AppTabs.ResumeLayout(false);
 			this.ReaderTab.ResumeLayout(false);
-			this.ReaderTab.PerformLayout();
 			this.EMTab.ResumeLayout(false);
 			this.EMTab.PerformLayout();
 			this.tabSensor.ResumeLayout(false);
@@ -646,23 +677,18 @@
 		private System.Windows.Forms.TabPage EMTab;
 		private System.Windows.Forms.Label TagLabel;
 		private System.Windows.Forms.ComboBox TxLevelSel;
-		private System.Windows.Forms.Button ApplyBtn;
-		private System.Windows.Forms.CheckBox StoreChk;
-		private System.Windows.Forms.ListBox TagList;
 		private System.Windows.Forms.CheckBox ErrLogChk;
 		private System.Windows.Forms.Button BAPStatBtn;
 		private System.Windows.Forms.Button GetUTCBtn;
-		private System.Windows.Forms.CheckBox SglAutoSel;
 		private System.Windows.Forms.CheckBox AutoScanChk;
 		private System.Windows.Forms.Button BAPDisBtn;
 		private System.Windows.Forms.Button BAPEnBtn;
 		private System.Windows.Forms.Button TestTagBtn;
 		private System.Windows.Forms.ComboBox ModulationSel;
 		private System.Windows.Forms.Button ResetToABtn;
-		private System.Windows.Forms.ComboBox AntSel;
-		private System.Windows.Forms.Button ReadSetupBtn;
-		private System.Windows.Forms.ComboBox SessionSel;
-		private System.Windows.Forms.ComboBox TargetSel;
+		private System.Windows.Forms.ComboBox InvQSel;
+		private System.Windows.Forms.ComboBox InvSessionSel;
+		private System.Windows.Forms.ComboBox InvTargetSel;
 		private System.Windows.Forms.Button MakeSimpleBtn;
 		private System.Windows.Forms.TabPage tabSensor;
 		private System.Windows.Forms.Button StopBtn;
@@ -678,6 +704,13 @@
 		private System.Windows.Forms.ComboBox UserMemType;
 		private System.Windows.Forms.CheckBox AppReadChk;
 		private System.Windows.Forms.CheckBox TargetResetChk;
+		private System.Windows.Forms.ListView physAntListView;
+		private System.Windows.Forms.ColumnHeader columnHeader_Antenna;
+		private System.Windows.Forms.ComboBox InvRoundsSel;
+		private System.Windows.Forms.ListView TagListView;
+		private System.Windows.Forms.ColumnHeader columnHeader_EPC;
+		private System.Windows.Forms.ColumnHeader columnHeader_RSSI;
+		private System.Windows.Forms.ColumnHeader columnHeader_AntID;
 	}
 }
 

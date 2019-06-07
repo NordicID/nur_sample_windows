@@ -17,9 +17,9 @@ namespace EM4325Test
 	{
 		private NurApi hNur;
 		EM4325Tag CurrentTag = null;
-		NurApi.ReaderInfo mReaderInfo;
-		NurApi.ModuleSetup mSetup;
 		List<EM4325Tag> AllTags;
+
+		int disableEvents = 0;
 
 		public MainForm()
 		{
@@ -42,7 +42,6 @@ namespace EM4325Test
 		{
 			UIDBtn.Enabled = en;
 			GetTagsBtn.Enabled = en;
-			ApplyBtn.Enabled = en;
 			SensorBtn.Enabled = en;
 			BAPStatBtn.Enabled = en;
 			GetUTCBtn.Enabled = en;
@@ -53,16 +52,16 @@ namespace EM4325Test
 			BAPDisBtn.Enabled = en;
 			TestTagBtn.Enabled = en;
 			ResetToABtn.Enabled = en;
-			ReadSetupBtn.Enabled = en;
 			ReadCfgBtn.Enabled = en;
 			MakeSimpleBtn.Enabled = en;
 			CustStartBtn.Enabled = en;
 			SimpleStartBtn.Enabled = en;
 			BtnReadUSer.Enabled = en;
 
+
 			if (en == false)
 			{
-				TagList.Items.Clear();
+				TagListView.Items.Clear();
 				TagLabel.Text = "---";
 			}
 		}
@@ -70,11 +69,12 @@ namespace EM4325Test
 		void OnReaderConnect(object sender, NurApi.NurEventArgs e)
 		{
 			EnableCtls(true);
-			TryUpdateInformation();
-			TryUpdateSetup(true);
-			PopulateTxLevel(TxLevelSel, mSetup.txLevel);
+			UpdateReaderInformation();
+			FillTxLevels();
+			FillPhysAntListView();
+			ModuleSetupToControls();
 			UpdateLogSettings();
-			AddLog("Connected.");
+			AddLog("Connected to reader");
 
 			if (AutoScanChk.Checked)
 			{
@@ -87,7 +87,6 @@ namespace EM4325Test
 		{
 			EnableCtls(false);
 			AddLog("Disconnected.");
-			TxLevelSel.Items.Clear();
 		}
 
 		void OnLogEvent(object sender, NurApi.LogEventArgs e)
@@ -102,75 +101,6 @@ namespace EM4325Test
 			VerbChk.Checked = ((level & NurApi.LOG_VERBOSE) != 0);
 			ULogChk.Checked = ((level & NurApi.LOG_USER) != 0);
 			ErrLogChk.Checked = ((level & NurApi.LOG_ERROR) != 0);
-		}
-
-		private void PopulateTxLevel(ComboBox cb, int setLevel)
-		{
-			double power;
-			double value;
-			int index = 0;
-			string strMax = "0: 500mW";
-
-			int topLevel = 27;
-
-			try
-			{
-				NurApi.DeviceCapabilites dc = hNur.GetDeviceCaps();
-				topLevel = dc.maxTxdBm;
-			}
-			catch { }
-
-			cb.Items.Clear();
-			cb.DropDownStyle = ComboBoxStyle.DropDownList;
-
-			if (topLevel == 30)
-				strMax = "0: 1W";
-
-			for (double i = 0; i <= 19; i++, index++)
-			{
-				if (index == 0)
-					cb.Items.Add(strMax);
-				else
-				{
-					power = (topLevel - i) / 10;
-					value = Math.Round(Math.Pow(10, power));
-					cb.Items.Add(index + ": " + value.ToString() + "mW");
-				}
-			}
-
-			if (setLevel >= 0 && setLevel <= 19)
-				cb.SelectedIndex = setLevel;
-			else
-				cb.SelectedIndex = 0;
-		}
-
-		private void PopulateSpan(ComboBox cmb, bool t28)
-		{
-			int center, step;
-			int i, lo, hi;
-			string s = "";
-
-			if (t28)
-			{
-				center = -16;
-				step = 14;
-			}
-			else
-			{
-				center = -22;
-				step = 7;
-			}
-
-			cmb.Items.Clear();
-			cmb.DropDownStyle = ComboBoxStyle.DropDownList;
-
-			for (i = 0; i < 8; i++)
-			{
-				lo = center - step;
-				hi = center + step;
-				s = i + ": " + lo + "..." + hi;
-				cmb.Items.Add(s);
-			}
 		}
 
 		private string[] ListMinutes()
@@ -874,41 +804,57 @@ namespace EM4325Test
 				return;
 			}
 
-			NurApi.TagStorage storage;
-			NurApi.InventoryResponse resp;
-			int i;
-			NurApi.Tag t;
-
 			CurrentTag = null;
-
 			AllTags.Clear();
-			TagList.Items.Clear();
+			TagListView.Items.Clear();
 			TagLabel.Text = "---";
 
 			try
 			{
-				hNur.ClearIdBuffer();
-				hNur.ClearTags();
-
 				ResetToA();
-				resp = hNur.Inventory(2, 4, 0);
 
-				storage = hNur.FetchTags(true);
+				hNur.ClearTagsEx();
 
-				for (i = 0; i < resp.numTagsFound; i++)
+
+
+				NurApi.InventoryExParams invParam;
+				NurApi.InventoryExFilter[] invFilters;
+
+				// Disable EPC+DATA mode 
+				hNur.InventoryReadCtl = false;
+				// Configure InventoryExParams for Temperature read
+				invParam.inventorySelState = NurApi.SELSTATE_SL;
+				invParam.inventoryTarget = NurApi.INVTARGET_A;
+				invParam.Q = hNur.InventoryQ;
+				invParam.rounds = hNur.InventoryRounds;
+				invParam.session = NurApi.SESSION_S0;
+				invParam.transitTime = 0; // Disable
+				// Configure InventoryExFilter
+				invFilters = new NurApi.InventoryExFilter[1];
+				invFilters[0].action = NurApi.FACTION_0;
+				invFilters[0].address = 0;
+				invFilters[0].bank = NurApi.BANK_TID;
+				invFilters[0].maskData = new byte[] { 0xE2, 0x80, 0xB0, 0x40 };
+				invFilters[0].maskBitLength = (invFilters[0].maskData.Length * 8) - 4;
+				invFilters[0].target = NurApi.SESSION_SL;
+				invFilters[0].truncate = false;
+				// Read
+				NurApi.InventoryResponse resp = hNur.InventoryEx(ref invParam, invFilters);
+				// Fetch tags from the module
+				NurApi.TagStorage tagStorage = hNur.FetchTags(true);
+
+				for (int i = 0; i < tagStorage.Count; i++)
 				{
-					t = storage[i];
-					AllTags.Add(new EM4325Tag(t));
-					TagList.Items.Add(AllTags[i].GetEpcString());
+					NurApi.Tag tag = tagStorage[i];
+					AllTags.Add(new EM4325Tag(tag));
+					ListViewItem lvi = new ListViewItem(tag.GetEpcString());
+					lvi.SubItems.Add(tag.rssi.ToString());
+					lvi.SubItems.Add(tag.antennaId.ToString());
+					TagListView.Items.Add(lvi);
 				}
-
-				if (resp.numTagsFound == 1 && SglAutoSel.Checked)
-				{
-					TagList.SelectedIndex = 0;
-					CurrentTag = AllTags[0];
-					CurrentTag.UseTargetReset = TargetResetChk.Checked;
-					TagLabel.Text = NurApi.BinToHexString(CurrentTag.mEPC);
-				}
+				columnHeader_EPC.Width = -2;
+				columnHeader_RSSI.Width = -2;
+				columnHeader_AntID.Width = -2;
 			}
 			catch (Exception ex)
 			{
@@ -928,14 +874,11 @@ namespace EM4325Test
 			Close();
 		}
 
-		private void TagList_Click(object sender, EventArgs e)
+		private void TagListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			int index;
-			index = TagList.SelectedIndex;
-
-			if (index >= 0 && index < AllTags.Count)
+			if (TagListView.SelectedItems.Count > 0)
 			{
-				CurrentTag = AllTags[index];
+				CurrentTag = AllTags[TagListView.SelectedItems[0].Index];
 				CurrentTag.UseTargetReset = TargetResetChk.Checked;
 				TagLabel.Text = NurApi.BinToHexString(CurrentTag.mEPC);
 			}
@@ -946,187 +889,37 @@ namespace EM4325Test
 			}
 		}
 
-		private void TryUpdateInformation()
+		private void UpdateReaderInformation()
 		{
 			try
 			{
-				mReaderInfo = hNur.GetReaderInfo();
-				AddLog("Device: " + mReaderInfo.name);
-				AddLog("FW: " + mReaderInfo.GetVersionString());
+				NurApi.ReaderInfo readerInfo = hNur.GetReaderInfo();
+				NurApi.DeviceCapabilites deviceCaps = hNur.GetDeviceCaps();
+
+				AddLog(string.Format("Device: {0} - {1}",
+					readerInfo.name,
+					readerInfo.altSerial
+					));
+
+				if ((deviceCaps.secChipMajorVersion != 0 ||
+					deviceCaps.secChipMinorVersion != 0) &&
+					deviceCaps.secChipMinorVersion != 255)
+				{
+					AddLog(string.Format("Firmware: {0} / {1}.{2}.{3}.{4}",
+						readerInfo.GetVersionString(),
+						deviceCaps.secChipMajorVersion, deviceCaps.secChipMinorVersion,
+						deviceCaps.secChipMaintenanceVersion, deviceCaps.secChipReleaseVersion));
+				}
+				else
+				{
+					AddLog("Firmware: " + readerInfo.GetVersionString());
+				}
 			}
 			catch (NurApiException e)
 			{
 				AddLog("Update reader information failed, error: " + e.error + ".");
 				AddLog("Message: " + e.Message);
 			}
-		}
-
-		private void TryUpdateSetup(bool justConnected)
-		{
-			try
-			{
-				NurApi.ModuleSetup setup = new NurApi.ModuleSetup();
-				setup.opFlags &= ~((uint)NurApi.OPFLAGS_EN_TUNEEVENTS);
-				hNur.SetModuleSetup(NurApi.SETUP_OPFLAGS, ref setup);
-				hNur.StoreCurrentSetup(NurApi.STORE_ALL);
-			}
-			catch { }
-
-			try
-			{
-				mSetup = hNur.GetModuleSetup();
-				SetupToControls();
-				if (justConnected)
-				{
-					mSetup.perAntPower[0] = -1;
-					mSetup.perAntPower[1] = -1;
-					mSetup.perAntPower[2] = -1;
-					mSetup.perAntPower[3] = -1;
-					hNur.SetModuleSetup(NurApi.SETUP_PERANTPOWER, ref mSetup);
-					hNur.StoreCurrentSetup(NurApi.STORE_ALL);
-					AddLog("Power limits set to 0.");
-				}
-			}
-			catch (NurApiException e)
-			{
-				AddLog("Module setup update failed, error: " + e.error + ".");
-				AddLog("Message: " + e.Message);
-			}
-		}
-
-		private void SetupToControls()
-		{
-			// TX
-			ModulationSel.SelectedIndex = mSetup.txModulation;
-
-			// RX
-			// LFSel.SelectedIndex = LfToIndex(mSetup.linkFreq);
-			// MillerSel.SelectedIndex = mSetup.rxDecoding;
-
-			// Other
-			// QEdit.Text = mSetup.inventoryQ.ToString();
-			SessionSel.SelectedIndex = mSetup.inventorySession;
-			TargetSel.SelectedIndex = mSetup.inventoryTarget;
-
-			// Antenna
-			AntSel.SelectedIndex = AntToIndex(mSetup.selectedAntenna);
-		}
-
-		private int AntToIndex(int selAnt)
-		{
-			hNur.ULog("Setting selected antenna " + selAnt + " to control.");
-			switch (selAnt)
-			{
-				case 0:
-				case 1:
-				case 2:
-				case 3:
-					return selAnt + 1;
-				default: break;
-			}
-
-			return 0;
-		}
-
-		private int IndexToAnt(int index, ref int mask)
-		{
-			int rc;
-			switch (index)
-			{
-				case 1:
-				case 2:
-				case 3:
-				case 4:
-					rc = index - 1;
-					mask = (1 << rc);
-					break;
-				default:
-					rc = -1;
-					mask = ((1 << 4) - 1);
-					break;
-			}
-			return rc;
-		}
-
-		private bool ControlsToSetup(ref NurApi.ModuleSetup setup, ref int setupFlags)
-		{
-			int flags = 0;
-			int ant, antMask;
-
-			/* if (!ParseInt(ref setup.inventoryQ, QEdit.Text, 0, 15))
-			{
-				AddLog("Q parameter parse error.");
-				return false;
-			} */
-
-			// TX
-			setup.txLevel = TxLevelSel.SelectedIndex;
-			flags |= NurApi.SETUP_TXLEVEL;
-			setup.txModulation = ModulationSel.SelectedIndex;
-			flags |= NurApi.SETUP_TXMOD;
-
-			// RX
-			// setup.linkFreq = IndexToLf(LFSel.SelectedIndex);
-			// flags |= NurApi.SETUP_LINKFREQ;
-			// setup.rxDecoding = MillerSel.SelectedIndex;
-			// flags |= NurApi.SETUP_RXDEC;
-
-			// Other			
-			setup.inventorySession = SessionSel.SelectedIndex;
-			flags |= NurApi.SETUP_INVSESSION;
-			setup.inventoryTarget = TargetSel.SelectedIndex;
-			flags |= NurApi.SETUP_INVTARGET;
-
-			antMask = 0;
-			ant = IndexToAnt(AntSel.SelectedIndex, ref antMask);
-
-			mSetup.selectedAntenna = ant;
-			mSetup.antennaMask = antMask;
-			flags |= (NurApi.SETUP_ANTMASK | NurApi.SETUP_SELECTEDANTENNA);
-
-			setupFlags = flags;
-			return true;
-		}
-
-		private void SetSetup(bool store)
-		{
-			int flags = 0;
-			NurApi.ModuleSetup setup = new NurApi.ModuleSetup();
-
-			if (ControlsToSetup(ref setup, ref flags))
-			{
-				try
-				{
-					hNur.SetModuleSetup(flags, ref setup);
-					AddLog("Setup is set.");
-				}
-				catch (Exception ex)
-				{
-					AddLog("Apply setup error.");
-					AddLog(ex.Message);
-				}
-
-				if (store)
-				{
-					try
-					{
-						hNur.StoreCurrentSetup();
-						AddLog("Setup is stored into the module.");
-					}
-					catch (Exception ex)
-					{
-						AddLog("Store setup error.");
-						AddLog(ex.Message);
-					}
-				}
-			}
-			else
-				AddLog("Parse error(s).");
-		}
-
-		private void ApplyBtn_Click(object sender, EventArgs e)
-		{
-			SetSetup(StoreChk.Checked);
 		}
 
 		private void SensorBtn_Click(object sender, EventArgs e)
@@ -1237,12 +1030,7 @@ namespace EM4325Test
 		private void ReaderTab_Enter(object sender, EventArgs e)
 		{
 			if (hNur.IsConnected())
-				TryUpdateSetup(false);
-		}
-
-		private void ReadSetupBtn_Click(object sender, EventArgs e)
-		{
-			TryUpdateSetup(false);
+				ModuleSetupToControls();
 		}
 
 		private void ReadCfgBtn_Click(object sender, EventArgs e)
@@ -1272,6 +1060,161 @@ namespace EM4325Test
 		{
 			if (TagReady)
 				CurrentTag.UseTargetReset = TargetResetChk.Checked;
+		}
+
+		private void FillTxLevels()
+		{
+			disableEvents++;
+
+			TxLevelSel.Items.Clear();
+			try
+			{
+				NurApi.DeviceCapabilites deviceCaps = hNur.GetDeviceCaps();
+				for (int txLevel = 0; txLevel < deviceCaps.txSteps; txLevel++)
+				{
+					int dBm = deviceCaps.maxTxdBm - (txLevel * deviceCaps.txAttnStep);
+					int mW = 0;
+					if (txLevel == 0)
+						mW = deviceCaps.maxTxmW;
+					else
+						mW = (int)Math.Round(Math.Pow(10, (double)dBm / 10));
+					TxLevelSel.Items.Add(string.Format("{0} dBm / {1} mW", dBm, mW));
+				}
+				TxLevelSel.Enabled = true;
+				TxLevelSel.SelectedIndex = hNur.TxLevel;
+			}
+			catch (Exception e)
+			{
+				TxLevelSel.Items.Add(e.Message);
+				TxLevelSel.Enabled = false;
+			}
+
+			// Set all per antenna TX levels to follow the main TX level
+			int[] antennaPower = hNur.AntennaPower;
+			for (int i = 0; i < antennaPower.Length; i++)
+				antennaPower[i] = -1;
+			int[] antennaPowerEx = hNur.AntennaPowerEx;
+			for (int i = 0; i < antennaPowerEx.Length; i++)
+				antennaPowerEx[i] = -1;
+
+			disableEvents--;
+		}
+
+		private void physAntListView_ItemChecked(object sender, ItemCheckedEventArgs e)
+		{
+			if (disableEvents > 0)
+				return;
+
+			try
+			{
+				string physAnt = e.Item.Text;
+				if (e.Item.Checked)
+				{
+					hNur.EnablePhysicalAntenna(physAnt);
+				}
+				else
+				{
+					hNur.DisablePhysicalAntenna(physAnt);
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+			UpdatePhysAntListView();
+		}
+
+		void FillPhysAntListView()
+		{
+			disableEvents++;
+			try
+			{
+				physAntListView.Items.Clear();
+				physAntListView.Items.Add(new ListViewItem("ALL"));
+				foreach (string physAnt in hNur.AvailablePhysicalAntennas)
+				{
+					physAntListView.Items.Add(new ListViewItem(physAnt));
+				}
+				//columnHeader_Antenna.Width = -2;
+				physAntListView.Enabled = true;
+			}
+			catch (Exception e)
+			{
+				physAntListView.Items.Add(new ListViewItem(e.Message));
+				physAntListView.Enabled = false;
+			}
+			disableEvents--;
+			UpdatePhysAntListView();
+		}
+
+		private void UpdatePhysAntListView()
+		{
+			if (physAntListView.Enabled)
+			{
+				try
+				{
+					for (int n = 0; n < physAntListView.Items.Count; n++)
+					{
+						string physAnt = physAntListView.Items[n].Text;
+						if (hNur.IsPhysicalAntennaEnabled(physAnt))
+						{
+							physAntListView.Items[n].Checked = true;
+						}
+						else
+						{
+							physAntListView.Items[n].Checked = false;
+						}
+					}
+					hNur.SelectedAntenna = NurApi.ANTENNAID_AUTOSELECT;
+				}
+				catch (Exception ex)
+				{
+					if (hNur.GetMode() == 'A')
+						MessageBox.Show(ex.Message);
+				}
+			}
+		}
+
+		private void ModuleSetup_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (disableEvents > 0)
+				return;
+
+			try
+			{
+				if (sender == TxLevelSel)
+					hNur.TxLevel = TxLevelSel.SelectedIndex;
+				else if (sender == ModulationSel)
+					hNur.TxModulation = ModulationSel.SelectedIndex;
+				else if (sender == InvQSel)
+					hNur.InventoryQ = InvQSel.SelectedIndex;
+				else if (sender == InvRoundsSel)
+					hNur.InventoryRounds = InvRoundsSel.SelectedIndex;
+				else if (sender == InvSessionSel)
+					hNur.InventorySession = InvSessionSel.SelectedIndex;
+				else if (sender == InvTargetSel)
+					hNur.InventoryTarget = InvTargetSel.SelectedIndex;
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+			UpdatePhysAntListView();
+		}
+
+		private void ModuleSetupToControls()
+		{
+			disableEvents++;
+			// TX
+			TxLevelSel.SelectedIndex = hNur.TxLevel;
+			ModulationSel.SelectedIndex = hNur.TxModulation;
+
+			// Inventory
+			InvQSel.SelectedIndex = hNur.InventoryQ;
+			InvRoundsSel.SelectedIndex = hNur.InventoryRounds;
+			InvSessionSel.SelectedIndex = hNur.InventorySession;
+			InvTargetSel.SelectedIndex = hNur.InventoryTarget;
+			disableEvents--;
 		}
 	}
 }
