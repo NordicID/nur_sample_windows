@@ -48,6 +48,12 @@ namespace Inventory
             //Performs simple inventory of tags using current rounds-, Q and session parameters            
             try
             {
+                if (!hNur.IsConnected())
+                {
+                    listBox1.Items.Add("Not connected to reader");
+                    return;
+                }
+
                 //Clear existing items from Listbox
                 listBox1.Items.Clear(); 
                 //Clear existing tags from NurModule memory
