@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloNUR_CSharp", "HelloNUR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleInventory_CSharp", "SimpleInventory_CSharp\SimpleInventory_CSharp.csproj", "{722398DD-D7E3-4114-91E6-57F1AF483E01}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryStream_CSharp", "InventoryStream_CSharp\InventoryStream_CSharp.csproj", "{B68DB72B-AE48-46C3-98D3-4ABEBFA1E21C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{722398DD-D7E3-4114-91E6-57F1AF483E01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{722398DD-D7E3-4114-91E6-57F1AF483E01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{722398DD-D7E3-4114-91E6-57F1AF483E01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B68DB72B-AE48-46C3-98D3-4ABEBFA1E21C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B68DB72B-AE48-46C3-98D3-4ABEBFA1E21C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B68DB72B-AE48-46C3-98D3-4ABEBFA1E21C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B68DB72B-AE48-46C3-98D3-4ABEBFA1E21C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
