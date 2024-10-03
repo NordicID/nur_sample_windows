@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloNUR_CSharp", "HelloNUR_CSharp\HelloNUR_CSharp.csproj", "{98F4D84B-FEC9-4E83-808F-11F10C7D39BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloNUR_CSharp", "HelloNUR_CSharp\HelloNUR_CSharp.csproj", "{98F4D84B-FEC9-4E83-808F-11F10C7D39BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleInventory_CSharp", "SimpleInventory_CSharp\SimpleInventory_CSharp.csproj", "{722398DD-D7E3-4114-91E6-57F1AF483E01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleInventory_CSharp", "SimpleInventory_CSharp\SimpleInventory_CSharp.csproj", "{722398DD-D7E3-4114-91E6-57F1AF483E01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryStream_CSharp", "InventoryStream_CSharp\InventoryStream_CSharp.csproj", "{B68DB72B-AE48-46C3-98D3-4ABEBFA1E21C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryStream_CSharp", "InventoryStream_CSharp\InventoryStream_CSharp.csproj", "{B68DB72B-AE48-46C3-98D3-4ABEBFA1E21C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryStreamMultipleReaders_CSharp", "InventoryStreamMultipleReaders_CSharp\InventoryStreamMultipleReaders_CSharp.csproj", "{8551084F-73E5-4699-8F5C-EE2172065F01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{B68DB72B-AE48-46C3-98D3-4ABEBFA1E21C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B68DB72B-AE48-46C3-98D3-4ABEBFA1E21C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B68DB72B-AE48-46C3-98D3-4ABEBFA1E21C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8551084F-73E5-4699-8F5C-EE2172065F01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8551084F-73E5-4699-8F5C-EE2172065F01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8551084F-73E5-4699-8F5C-EE2172065F01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8551084F-73E5-4699-8F5C-EE2172065F01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
