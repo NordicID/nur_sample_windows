@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleInventory_CSharp", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryStream_CSharp", "InventoryStream_CSharp\InventoryStream_CSharp.csproj", "{B68DB72B-AE48-46C3-98D3-4ABEBFA1E21C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryStreamMultipleReaders_CSharp", "InventoryStreamMultipleReaders_CSharp\InventoryStreamMultipleReaders_CSharp.csproj", "{8551084F-73E5-4699-8F5C-EE2172065F01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryStreamMultipleReaders_CSharp", "InventoryStreamMultipleReaders_CSharp\InventoryStreamMultipleReaders_CSharp.csproj", "{8551084F-73E5-4699-8F5C-EE2172065F01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDiscovery_CSharp", "DeviceDiscovery_CSharp\DeviceDiscovery_CSharp.csproj", "{DD09302C-047B-401D-A556-AC67E32177EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{8551084F-73E5-4699-8F5C-EE2172065F01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8551084F-73E5-4699-8F5C-EE2172065F01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8551084F-73E5-4699-8F5C-EE2172065F01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD09302C-047B-401D-A556-AC67E32177EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD09302C-047B-401D-A556-AC67E32177EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD09302C-047B-401D-A556-AC67E32177EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD09302C-047B-401D-A556-AC67E32177EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
